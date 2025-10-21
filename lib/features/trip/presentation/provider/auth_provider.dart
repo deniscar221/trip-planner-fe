@@ -9,7 +9,8 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../../../injection_container.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  return AuthNotifier(sl<TripRepository>(), sl<FlutterSecureStorage>());
+  return AuthNotifier(sl<TripRepository>(), sl<FlutterSecureStorage>())
+    ..checkAuth();
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
@@ -18,6 +19,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   AuthNotifier(this._tripRepository, this._secureStorage) : super(AuthInitial());
 
+  Future<void> checkAuth() async {
+    final token = await _secureStorage.read(key: 'token');
+    if (token != null) {
+      final decodedToken = JwtDecoder.decode(token);
+      final user = User(
+          username: decodedToken['sub'], email: 'user@example.com');
+      state = Authenticated(token, user);
+    }
+  }
+
   Future<void> login(String username, String password) async {
     state = AuthLoading();
     try {
@@ -25,7 +36,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       await _secureStorage.write(key: 'token', value: token);
       final decodedToken = JwtDecoder.decode(token);
       final user = User(
-          username: decodedToken['username'], email: decodedToken['email']);
+          username: decodedToken['sub'], email: 'user@example.com');
       state = Authenticated(token, user);
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
@@ -43,7 +54,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       await _secureStorage.write(key: 'token', value: token);
       final decodedToken = JwtDecoder.decode(token);
       final user = User(
-          username: decodedToken['username'], email: decodedToken['email']);
+          username: decodedToken['sub'], email: 'user@example.com');
       state = Authenticated(token, user);
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {
