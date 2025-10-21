@@ -1,0 +1,1388 @@
+{
+	"info": {
+		"_postman_id": "fe1c9c74-ed18-4c15-892b-f7ac2c2747a3",
+		"name": "Trip Planner API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"email\": \"testuser@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/signup",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sign Up",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"testuser\",\n    \"email\": \"testuser@example.com\",\n    \"password\": \"password123\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/signup",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain;charset=UTF-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 17:02:02 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "User registered successfully"
+						}
+					]
+				},
+				{
+					"name": "Sign In",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"jwtToken\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/signin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sign In",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/auth/signin",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"signin"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 17:02:13 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"username\": \"testuser\",\n    \"email\": \"testuser@example.com\",\n    \"tokenType\": \"Bearer\",\n    \"accessToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc2MDgwNjkzMywiZXhwIjoxNzYwODkzMzMzfQ.cuZlcq8TeaLpxp5grYfdUTPmYVbyEt7xUj8_hBAKDDfcfQD0xonracQGPuVwZxQjKeic6HKTNx4OAHT2EFBwaQ\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get User's Trips",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc2MDgwNjkzMywiZXhwIjoxNzYwODkzMzMzfQ.cuZlcq8TeaLpxp5grYfdUTPmYVbyEt7xUj8_hBAKDDfcfQD0xonracQGPuVwZxQjKeic6HKTNx4OAHT2EFBwaQ",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/trips",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"trips"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get User's Trips",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc2MDgwNjkzMywiZXhwIjoxNzYwODkzMzMzfQ.cuZlcq8TeaLpxp5grYfdUTPmYVbyEt7xUj8_hBAKDDfcfQD0xonracQGPuVwZxQjKeic6HKTNx4OAHT2EFBwaQ",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/trips",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"trips"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 19 Oct 2025 12:37:57 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"destination\": \"Rome, Italy\",\n        \"shareableLink\": \"c3e699bd-deaf-4219-9683-42717b023633\",\n        \"createdAt\": \"2025-10-18T22:13:14.716814\",\n        \"userId\": 1,\n        \"finalized\": true,\n        \"dayPlans\": [\n            {\n                \"id\": 1,\n                \"dayNumber\": 1,\n                \"activities\": [\n                    {\n                        \"id\": 1,\n                        \"name\": \"Colosseum and Roman Forum Tour\",\n                        \"city\": \"Rome, Italy\",\n                        \"description\": \"Explore the iconic Colosseum and wander through the ruins of the Roman Forum, immersing yourselves in ancient Roman history.\",\n                        \"address\": \"Rome, Italy, Piazza del Colosseo, 1\",\n                        \"expectedDurationHours\": 3,\n                        \"estimatedCostEUR\": 75\n                    }\n                ],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 2,\n                \"dayNumber\": 2,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 3,\n                \"dayNumber\": 3,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 4,\n                \"dayNumber\": 4,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 5,\n                \"dayNumber\": 5,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 6,\n                \"dayNumber\": 6,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            }\n        ],\n        \"interests\": [\n            {\n                \"id\": 1,\n                \"name\": \"museums\"\n            },\n            {\n                \"id\": 2,\n                \"name\": \"history\"\n            }\n        ]\n    },\n    {\n        \"id\": 11,\n        \"destination\": \"Sofia, Bulgaria\",\n        \"shareableLink\": \"b1fa03de-a6ab-445f-8b50-1b7a5402e8bb\",\n        \"createdAt\": \"2025-10-19T15:31:03.232579\",\n        \"userId\": 1,\n        \"finalized\": true,\n        \"dayPlans\": [\n            {\n                \"id\": 25,\n                \"dayNumber\": 1,\n                \"activities\": [\n                    {\n                        \"id\": 9,\n                        \"name\": \"Bar Crawl in Sofia\",\n                        \"city\": \"Sofia, Bulgaria\",\n                        \"description\": \"Experience Sofia's vibrant nightlife with a guided or self-guided bar crawl through the city's popular bars and clubs.\",\n                        \"address\": \"Sofia, Bulgaria, Various Locations, Start at Vitosha Blvd\",\n                        \"expectedDurationHours\": 5,\n                        \"estimatedCostEUR\": 50\n                    }\n                ],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 26,\n                \"dayNumber\": 2,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 27,\n                \"dayNumber\": 3,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 28,\n                \"dayNumber\": 4,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 29,\n                \"dayNumber\": 5,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            },\n            {\n                \"id\": 30,\n                \"dayNumber\": 6,\n                \"activities\": [],\n                \"canFitAnotherActivityInTheSameDay\": true\n            }\n        ],\n        \"interests\": [\n            {\n                \"id\": 5,\n                \"name\": \"girls\"\n            },\n            {\n                \"id\": 3,\n                \"name\": \"Night life\"\n            }\n        ]\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Trip Planning",
+			"item": [
+				{
+					"name": "Get City Suggestions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"preferences\": [\"beach\", \"history\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/trip/suggestions/cities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"trip",
+								"suggestions",
+								"cities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get City Suggestions",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"preferences\": [\"beach\", \"history\"]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/trip/suggestions/cities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"trip",
+										"suggestions",
+										"cities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 17:03:06 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"country\": \"Greece\",\n        \"city\": \"Rhodes\",\n        \"overview\": \"Rhodes offers a unique blend of ancient history and beautiful beaches. Explore the medieval city, a UNESCO World Heritage site, and relax on the island's numerous sandy shores.\",\n        \"imageUrl\": \"https://www.royalcaribbean.com/media-assets/pmc/content/dam/shore-x/rhodes-rho/rh35-leisurely-lindos/stock-photo-aerial-lindos-village-rhodes-greece_1772682413.jpg?w=1920\"\n    },\n    {\n        \"country\": \"Italy\",\n        \"city\": \"Taormina\",\n        \"overview\": \"Taormina, Sicily combines ancient Greek ruins with stunning coastal views. Discover the Teatro Antico and enjoy the beautiful beaches along the Ionian Sea.\",\n        \"imageUrl\": \"https://www.italia.it/content/dam/tdh/en/interests/sicilia/taormina/media/20210309110434-taormina.jpg\"\n    },\n    {\n        \"country\": \"Turkey\",\n        \"city\": \"Antalya\",\n        \"overview\": \"Antalya provides a rich history from ancient Pamphylia combined with gorgeous Mediterranean beaches. Explore ancient sites like Perge and Aspendos, then unwind on Konyaaltı Beach.\",\n        \"imageUrl\": \"https://www.traveltalktours.com/wp-content/smush-webp/2024/02/what-is-the-best-month-to-visit-antalya-scaled.jpg.webp\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Start a New Trip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"itineraryId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"destination\": \"Rome, Italy\",\n    \"fromDate\": \"2025-10-20\",\n    \"toDate\": \"2025-10-25\",\n    \"numberOfAdults\": 2,\n    \"numberOfChildren\": 0\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/trip/start",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"trip",
+								"start"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Start a New Trip",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwtToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"destination\": \"Rome, Italy\",\n    \"fromDate\": \"2025-10-20\",\n    \"toDate\": \"2025-10-25\",\n    \"numberOfAdults\": 2,\n    \"numberOfChildren\": 0\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/trip/start",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"trip",
+										"start"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 19:13:15 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"destination\": \"Rome, Italy\",\n    \"shareableLink\": null,\n    \"createdAt\": \"2025-10-18T22:13:14.7168137\",\n    \"userId\": null,\n    \"finalized\": false,\n    \"dayPlans\": [\n        {\n            \"id\": 1,\n            \"dayNumber\": 1,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 2,\n            \"dayNumber\": 2,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 3,\n            \"dayNumber\": 3,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 4,\n            \"dayNumber\": 4,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 5,\n            \"dayNumber\": 5,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 6,\n            \"dayNumber\": 6,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        }\n    ],\n    \"interests\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Itinerary Interests",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"interestNames\": [\"history\", \"museums\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/trip/1/interests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"trip",
+								"1",
+								"interests"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Itinerary Interests",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwtToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"interestNames\": [\"history\", \"museums\"]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/trip/1/interests",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"trip",
+										"1",
+										"interests"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 19:17:16 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"destination\": \"Rome, Italy\",\n    \"shareableLink\": null,\n    \"createdAt\": \"2025-10-18T22:13:14.716814\",\n    \"userId\": null,\n    \"finalized\": false,\n    \"dayPlans\": [\n        {\n            \"id\": 1,\n            \"dayNumber\": 1,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 2,\n            \"dayNumber\": 2,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 3,\n            \"dayNumber\": 3,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 4,\n            \"dayNumber\": 4,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 5,\n            \"dayNumber\": 5,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 6,\n            \"dayNumber\": 6,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        }\n    ],\n    \"interests\": [\n        {\n            \"id\": 1,\n            \"name\": \"museums\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"history\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Activity Suggestions for a Day",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/trip/1/days/1/suggestions/activities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"trip",
+								"1",
+								"days",
+								"1",
+								"suggestions",
+								"activities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Activity Suggestions for a Day",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwtToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/trip/1/days/1/suggestions/activities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"trip",
+										"1",
+										"days",
+										"1",
+										"suggestions",
+										"activities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 19:30:17 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"name\": \"Colosseum and Roman Forum Tour\",\n        \"city\": \"Rome, Italy\",\n        \"description\": \"Explore the iconic Colosseum and wander through the ruins of the Roman Forum, immersing yourselves in ancient Roman history.\",\n        \"expectedDurationHours\": 3,\n        \"estimatedCostEUR\": 75,\n        \"image\": \"https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=10223679428644270\",\n        \"address\": \"Rome, Italy, Piazza del Colosseo, 1\"\n    },\n    {\n        \"name\": \"Pantheon Visit\",\n        \"city\": \"Rome, Italy\",\n        \"description\": \"Marvel at the architectural genius of the Pantheon, a remarkably preserved ancient Roman temple.\",\n        \"expectedDurationHours\": 1.5,\n        \"estimatedCostEUR\": 0,\n        \"image\": \"https://res.cloudinary.com/aenetworks/image/upload/c_fill,ar_2,w_3840,h_1920,g_auto/dpr_auto/f_auto/q_auto:eco/v1/gettyimages-sb10061711ao-001?_a=BAVAZGID0\",\n        \"address\": \"Rome, Italy, Piazza della Rotonda, s.n.c\"\n    },\n    {\n        \"name\": \"Capitoline Museums\",\n        \"city\": \"Rome, Italy\",\n        \"description\": \"Discover a vast collection of Roman art and artifacts at the Capitoline Museums, housed in two historic palaces on Capitoline Hill.\",\n        \"expectedDurationHours\": 3.5,\n        \"estimatedCostEUR\": 22,\n        \"image\": \"https://artandtraditiontours.com/wp-content/uploads/2025/03/AdobeStock_640311262-scaled.jpeg\",\n        \"address\": \"Rome, Italy, Piazza del Campidoglio, 1\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Add Activity to Day Plan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwtToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Colosseum and Roman Forum Tour\",\n        \"city\": \"Rome, Italy\",\n        \"description\": \"Explore the iconic Colosseum and wander through the ruins of the Roman Forum, immersing yourselves in ancient Roman history.\",\n        \"expectedDurationHours\": 3,\n        \"estimatedCostEUR\": 75,\n        \"image\": \"https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=10223679428644270\",\n        \"address\": \"Rome, Italy, Piazza del Colosseo, 1\"\n    }"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/trip/1/days/1/activities",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"trip",
+								"1",
+								"days",
+								"1",
+								"activities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Activity to Day Plan",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{jwtToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"name\": \"Colosseum and Roman Forum Tour\",\n        \"city\": \"Rome, Italy\",\n        \"description\": \"Explore the iconic Colosseum and wander through the ruins of the Roman Forum, immersing yourselves in ancient Roman history.\",\n        \"expectedDurationHours\": 3,\n        \"estimatedCostEUR\": 75,\n        \"image\": \"https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=10223679428644270\",\n        \"address\": \"Rome, Italy, Piazza del Colosseo, 1\"\n    }"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/trip/1/days/1/activities",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"trip",
+										"1",
+										"days",
+										"1",
+										"activities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 19:31:04 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"destination\": \"Rome, Italy\",\n    \"shareableLink\": null,\n    \"createdAt\": \"2025-10-18T22:13:14.716814\",\n    \"userId\": null,\n    \"finalized\": false,\n    \"dayPlans\": [\n        {\n            \"id\": 1,\n            \"dayNumber\": 1,\n            \"activities\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Colosseum and Roman Forum Tour\",\n                    \"city\": \"Rome, Italy\",\n                    \"description\": \"Explore the iconic Colosseum and wander through the ruins of the Roman Forum, immersing yourselves in ancient Roman history.\",\n                    \"address\": \"Rome, Italy, Piazza del Colosseo, 1\",\n                    \"expectedDurationHours\": 3,\n                    \"estimatedCostEUR\": 75\n                }\n            ],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 2,\n            \"dayNumber\": 2,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 3,\n            \"dayNumber\": 3,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 4,\n            \"dayNumber\": 4,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 5,\n            \"dayNumber\": 5,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 6,\n            \"dayNumber\": 6,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        }\n    ],\n    \"interests\": [\n        {\n            \"id\": 2,\n            \"name\": \"history\"\n        },\n        {\n            \"id\": 1,\n            \"name\": \"museums\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Preview itinerary",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/trip/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"trip",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Preview itinerary",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/trip/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"trip",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 19:32:47 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"destination\": \"Rome, Italy\",\n    \"shareableLink\": null,\n    \"createdAt\": \"2025-10-18T22:13:14.716814\",\n    \"userId\": null,\n    \"finalized\": false,\n    \"dayPlans\": [\n        {\n            \"id\": 1,\n            \"dayNumber\": 1,\n            \"activities\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Colosseum and Roman Forum Tour\",\n                    \"city\": \"Rome, Italy\",\n                    \"description\": \"Explore the iconic Colosseum and wander through the ruins of the Roman Forum, immersing yourselves in ancient Roman history.\",\n                    \"address\": \"Rome, Italy, Piazza del Colosseo, 1\",\n                    \"expectedDurationHours\": 3,\n                    \"estimatedCostEUR\": 75\n                }\n            ],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 2,\n            \"dayNumber\": 2,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 3,\n            \"dayNumber\": 3,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 4,\n            \"dayNumber\": 4,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 5,\n            \"dayNumber\": 5,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 6,\n            \"dayNumber\": 6,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        }\n    ],\n    \"interests\": [\n        {\n            \"id\": 2,\n            \"name\": \"history\"\n        },\n        {\n            \"id\": 1,\n            \"name\": \"museums\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Finalize Itinerary",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"shareableLink\", jsonData.shareableLink);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc2MDgwNjkzMywiZXhwIjoxNzYwODkzMzMzfQ.cuZlcq8TeaLpxp5grYfdUTPmYVbyEt7xUj8_hBAKDDfcfQD0xonracQGPuVwZxQjKeic6HKTNx4OAHT2EFBwaQ"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/trip/1/finalize",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"trip",
+								"1",
+								"finalize"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Finalize Itinerary",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0dXNlciIsImlhdCI6MTc2MDgwNjkzMywiZXhwIjoxNzYwODkzMzMzfQ.cuZlcq8TeaLpxp5grYfdUTPmYVbyEt7xUj8_hBAKDDfcfQD0xonracQGPuVwZxQjKeic6HKTNx4OAHT2EFBwaQ"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/trip/1/finalize",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"trip",
+										"1",
+										"finalize"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 19:33:41 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"destination\": \"Rome, Italy\",\n    \"shareableLink\": \"c3e699bd-deaf-4219-9683-42717b023633\",\n    \"createdAt\": \"2025-10-18T22:13:14.716814\",\n    \"userId\": 1,\n    \"finalized\": true,\n    \"dayPlans\": [\n        {\n            \"id\": 1,\n            \"dayNumber\": 1,\n            \"activities\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Colosseum and Roman Forum Tour\",\n                    \"city\": \"Rome, Italy\",\n                    \"description\": \"Explore the iconic Colosseum and wander through the ruins of the Roman Forum, immersing yourselves in ancient Roman history.\",\n                    \"address\": \"Rome, Italy, Piazza del Colosseo, 1\",\n                    \"expectedDurationHours\": 3,\n                    \"estimatedCostEUR\": 75\n                }\n            ],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 2,\n            \"dayNumber\": 2,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 3,\n            \"dayNumber\": 3,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 4,\n            \"dayNumber\": 4,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 5,\n            \"dayNumber\": 5,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 6,\n            \"dayNumber\": 6,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        }\n    ],\n    \"interests\": [\n        {\n            \"id\": 2,\n            \"name\": \"history\"\n        },\n        {\n            \"id\": 1,\n            \"name\": \"museums\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Shared Itinerary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/shared/c3e699bd-deaf-4219-9683-42717b023633",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"shared",
+								"c3e699bd-deaf-4219-9683-42717b023633"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Shared Itinerary",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/shared/c3e699bd-deaf-4219-9683-42717b023633",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"shared",
+										"c3e699bd-deaf-4219-9683-42717b023633"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 18 Oct 2025 19:34:26 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"destination\": \"Rome, Italy\",\n    \"shareableLink\": \"c3e699bd-deaf-4219-9683-42717b023633\",\n    \"createdAt\": \"2025-10-18T22:13:14.716814\",\n    \"userId\": 1,\n    \"finalized\": true,\n    \"dayPlans\": [\n        {\n            \"id\": 1,\n            \"dayNumber\": 1,\n            \"activities\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Colosseum and Roman Forum Tour\",\n                    \"city\": \"Rome, Italy\",\n                    \"description\": \"Explore the iconic Colosseum and wander through the ruins of the Roman Forum, immersing yourselves in ancient Roman history.\",\n                    \"address\": \"Rome, Italy, Piazza del Colosseo, 1\",\n                    \"expectedDurationHours\": 3,\n                    \"estimatedCostEUR\": 75\n                }\n            ],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 2,\n            \"dayNumber\": 2,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 3,\n            \"dayNumber\": 3,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 4,\n            \"dayNumber\": 4,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 5,\n            \"dayNumber\": 5,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        },\n        {\n            \"id\": 6,\n            \"dayNumber\": 6,\n            \"activities\": [],\n            \"canFitAnotherActivityInTheSameDay\": true\n        }\n    ],\n    \"interests\": [\n        {\n            \"id\": 2,\n            \"name\": \"history\"\n        },\n        {\n            \"id\": 1,\n            \"name\": \"museums\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "jwtToken",
+			"value": ""
+		},
+		{
+			"key": "itineraryId",
+			"value": ""
+		},
+		{
+			"key": "shareableLink",
+			"value": ""
+		}
+	]
+}
