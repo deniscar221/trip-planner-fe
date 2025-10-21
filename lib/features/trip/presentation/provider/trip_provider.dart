@@ -8,14 +8,16 @@ import 'auth_state.dart';
 final tripProvider =
     StateNotifierProvider<TripNotifier, AsyncValue<ItineraryResponseModel?>>(
         (ref) {
-  return TripNotifier(sl<TripRepository>());
+  return TripNotifier(sl<TripRepository>(), ref);
 });
 
 class TripNotifier extends StateNotifier<AsyncValue<ItineraryResponseModel?>> {
   final TripRepository _tripRepository;
+  final Ref _ref;
   int? _tripId;
 
-  TripNotifier(this._tripRepository) : super(const AsyncValue.data(null));
+  TripNotifier(this._tripRepository, this._ref)
+      : super(const AsyncValue.data(null));
 
   void setTrip(ItineraryResponseModel trip) {
     _tripId = trip.id;
@@ -25,6 +27,7 @@ class TripNotifier extends StateNotifier<AsyncValue<ItineraryResponseModel?>> {
   Future<void> finalize() async {
     if (_tripId != null) {
       await _tripRepository.finalizeTrip(_tripId!);
+      _ref.invalidate(userTripsProvider);
     }
   }
 }

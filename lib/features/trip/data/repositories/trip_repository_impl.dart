@@ -98,13 +98,11 @@ class TripRepositoryImpl implements TripRepository {
 
   @override
   Future<String> signUp(String username, String email, String password) async {
-    final response = await dio.post(
+    await dio.post(
       '/auth/signup',
       data: {'username': username, 'email': email, 'password': password},
     );
-    Map<String, dynamic> data =
-        response.data is String ? json.decode(response.data) : response.data;
-    return data['accessToken'];
+    return signIn(username, password);
   }
 
   @override
