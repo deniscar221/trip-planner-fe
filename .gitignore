@@ -1,0 +1,44 @@
+# Miscellaneous
+*.class
+*.db
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+.idea/
+.project
+.classpath
+.settings/
+
+# Flutter specific
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# IDE files
+*.iws
+*.iml
+*.ids
+
+# Build artifacts
+build/
+.dart_tool/
+android/.gradle
+android/local.properties
+ios/Pods/
+ios/Runner/GeneratedPluginRegistrant.h
+ios/Runner/GeneratedPluginRegistrant.m
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+
+# Sensitive files
+secrets.json
+.env
+key.properties
