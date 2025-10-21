@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ai_trip_planner/core/constants/app_constants.dart';
 import 'package:ai_trip_planner/core/network/logging_interceptor.dart';
 import 'package:ai_trip_planner/features/trip/data/models/itinerary_response_model.dart';
@@ -89,7 +91,9 @@ class TripRepositoryImpl implements TripRepository {
       '/auth/signin',
       data: {'username': username, 'password': password},
     );
-    return response.data['accessToken'];
+    Map<String, dynamic> data =
+        response.data is String ? json.decode(response.data) : response.data;
+    return data['accessToken'];
   }
 
   @override
@@ -98,11 +102,21 @@ class TripRepositoryImpl implements TripRepository {
       '/auth/signup',
       data: {'username': username, 'email': email, 'password': password},
     );
-    return response.data['accessToken'];
+    Map<String, dynamic> data =
+        response.data is String ? json.decode(response.data) : response.data;
+    return data['accessToken'];
   }
 
   @override
   Future<void> finalizeTrip(int tripId) async {
     await dio.post('/trip/$tripId/finalize');
+  }
+
+  @override
+  Future<List<ItineraryResponseModel>> getUserTrips() async {
+    final response = await dio.get('/trip');
+    return (response.data as List)
+        .map((trip) => ItineraryResponseModel.fromJson(trip))
+        .toList();
   }
 }

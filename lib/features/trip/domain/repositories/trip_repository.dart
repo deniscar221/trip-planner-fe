@@ -24,4 +24,6 @@ abstract class TripRepository {
   Future<String> signUp(String username, String email, String password);
 
   Future<void> finalizeTrip(int tripId);
+
+  Future<List<ItineraryResponseModel>> getUserTrips();
 }

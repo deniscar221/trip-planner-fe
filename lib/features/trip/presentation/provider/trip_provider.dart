@@ -2,6 +2,8 @@ import 'package:ai_trip_planner/features/trip/domain/repositories/trip_repositor
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../injection_container.dart';
 import '../../data/models/itinerary_response_model.dart';
+import 'auth_provider.dart';
+import 'auth_state.dart';
 
 final tripProvider =
     StateNotifierProvider<TripNotifier, AsyncValue<ItineraryResponseModel?>>(
@@ -28,7 +30,10 @@ class TripNotifier extends StateNotifier<AsyncValue<ItineraryResponseModel?>> {
 }
 
 final userTripsProvider =
-    FutureProvider<List<ItineraryResponseModel>>((ref) async {
-  // TODO fetch user trips from API
+    FutureProvider.autoDispose<List<ItineraryResponseModel>>((ref) async {
+  final authState = ref.watch(authProvider);
+  if (authState is Authenticated) {
+    return sl<TripRepository>().getUserTrips();
+  }
   return [];
 });
