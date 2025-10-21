@@ -6,7 +6,6 @@ import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_advent
 import 'package:ai_trip_planner/features/trip/presentation/bloc/suggested_cities_bloc.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/trip_details_bloc.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/activity_plan_bloc.dart';
-import 'package:ai_trip_planner/features/trip/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final sl = GetIt.instance;
@@ -25,5 +24,4 @@ void init() {
   sl.registerFactory(() => SuggestedCitiesBloc(tripRepository: sl()));
   sl.registerFactory(() => TripDetailsBloc());
   sl.registerFactory(() => ActivityPlanBloc(tripRepository: sl()));
-  sl.registerFactory(() => AuthBloc(tripRepository: sl(), secureStorage: sl()));
 }

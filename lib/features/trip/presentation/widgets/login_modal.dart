@@ -2,15 +2,15 @@ import 'package:ai_trip_planner/core/theme/app_colors.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
 import 'package:flutter/material.dart';
-import 'package.hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginModal extends StatefulHookConsumerWidget {
+class LoginModal extends ConsumerStatefulWidget {
   final VoidCallback onLoginSuccess;
 
   const LoginModal({super.key, required this.onLoginSuccess});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LoginModalState();
+  ConsumerState<LoginModal> createState() => _LoginModalState();
 }
 
 class _LoginModalState extends ConsumerState<LoginModal> {
