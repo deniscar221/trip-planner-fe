@@ -9,7 +9,7 @@ void main() {
   // Initialize logging
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
-    print('${record.level.name}: ${record.time}: ${record.message}');
+    debugPrint('${record.level.name}: ${record.time}: ${record.message}');
   });
 
   di.init();

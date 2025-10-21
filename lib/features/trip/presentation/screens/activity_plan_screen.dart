@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:ai_trip_planner/core/theme/app_colors.dart';
 import 'package:ai_trip_planner/core/widgets/custom_app_bar.dart';
 import 'package:ai_trip_planner/core/widgets/error_state_widget.dart';
@@ -10,10 +9,8 @@ import 'package:ai_trip_planner/features/trip/presentation/bloc/activity_plan_ev
 import 'package:ai_trip_planner/features/trip/presentation/bloc/activity_plan_state.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/activity_selection_modal.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/animated_list_item.dart';
-import 'package:ai_trip_planner/features/trip/presentation/widgets/login_modal.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/save_share_book_screen.dart';
 import 'package:ai_trip_planner/injection_container.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 class ActivityPlanScreen extends StatelessWidget {
@@ -56,6 +53,7 @@ class ActivityPlanScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is ActivityPlanLoaded &&
                 state.suggestedActivities != null) {
+              final bloc = context.read<ActivityPlanBloc>();
               showDialog(
                 context: context,
                 builder: (_) => ActivitySelectionModal(
@@ -64,16 +62,15 @@ class ActivityPlanScreen extends StatelessWidget {
                     final tripId = state.itinerary.id;
                     final dayNumber = state.dayNumberForSuggestions;
                     if (dayNumber != null) {
-                      context.read<ActivityPlanBloc>().add(
+                      bloc.add(
                           SelectActivityForDay(tripId, dayNumber, activity));
                     }
+                    if (!context.mounted) return;
                     Navigator.of(context).pop();
                   },
                 ),
               ).then((_) {
-                context
-                    .read<ActivityPlanBloc>()
-                    .add(ClearSuggestedActivities());
+                bloc.add(ClearSuggestedActivities());
               });
             }
           },
@@ -142,7 +139,7 @@ class ActivityPlanScreen extends StatelessWidget {
                         image: NetworkImage(firstImage),
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
-                          AppColors.black.withOpacity(0.5),
+                          AppColors.black.withAlpha(128),
                           BlendMode.darken,
                         ),
                       ),
@@ -268,34 +265,15 @@ class ActivityPlanScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
           ),
           onPressed: isEnabled
-              ? () async {
-                  final secureStorage = sl<FlutterSecureStorage>();
-                  final token = await secureStorage.read(key: 'token');
-                  if (token == null) {
-                    showDialog(
-                      context: context,
-                      builder: (_) => const LoginModal(),
-                    ).then((_) {
-                      secureStorage.read(key: 'token').then((value) {
-                        if (value != null) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const SaveShareBookScreen(),
-                            ),
-                          );
-                        }
-                      });
-                    });
-                  } else {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => const SaveShareBookScreen(),
-                      ),
-                    );
-                  }
+              ? () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const SaveShareBookScreen(),
+                    ),
+                  );
                 }
               : null,
-          child: const Text('Want to save your trip plan and get an offer?'),
+          child: const Text('Save Trip'),
         ),
       ),
     );

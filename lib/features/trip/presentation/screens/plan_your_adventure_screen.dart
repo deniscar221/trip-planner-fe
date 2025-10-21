@@ -104,7 +104,7 @@ class PlanYourAdventureScreen extends StatelessWidget {
           child: Card(
             elevation: isSelected ? 8 : 2,
             color: isSelected
-                ? Theme.of(context).primaryColor.withOpacity(0.8)
+                ? Theme.of(context).primaryColor.withAlpha(204)
                 : AppColors.white,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +153,7 @@ class PlanYourAdventureScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DropdownButtonFormField<String>(
-          value: state.destination ?? '—',
+          initialValue: state.destination ?? '—',
           decoration: const InputDecoration(
             labelText: 'Choose your destination',
           ),
@@ -210,6 +210,7 @@ class PlanYourAdventureScreen extends StatelessWidget {
                    final preferencesForApi = state.selectedActivities
                       .map((activity) => activity.toLowerCase().replaceAll(' ', '_'))
                       .toList();
+                  if (!context.mounted) return;
                   final selectedCity = await Navigator.of(context).push(
                     PageRouteBuilder(
                       opaque: false,
@@ -220,6 +221,7 @@ class PlanYourAdventureScreen extends StatelessWidget {
                   );
 
                   if (selectedCity != null) {
+                    if (!context.mounted) return;
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (_) => TripDetailsScreen(
@@ -230,6 +232,7 @@ class PlanYourAdventureScreen extends StatelessWidget {
                     );
                   }
                 } else {
+                  if (!context.mounted) return;
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (_) => TripDetailsScreen(

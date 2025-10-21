@@ -1,5 +1,7 @@
 import 'package:ai_trip_planner/core/widgets/custom_app_bar.dart';
+import 'package:ai_trip_planner/features/trip/data/models/user_model.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/hearthstone_card.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/login_modal.dart';
@@ -21,25 +23,21 @@ class _SaveShareBookScreenState extends ConsumerState<SaveShareBookScreen> {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: authState.maybeWhen(
-          authenticated: (_, __) => 'Your Profile',
-          orElse: () => 'Save My Trip',
-        ),
+        title: authState is Authenticated ? 'Your Profile' : 'Save My Trip',
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: authState.maybeWhen(
-          authenticated: (token, user) => UserProfileScreen(
-            user: user,
-            onLogout: () => ref.read(authProvider.notifier).logout(),
-          ),
-          orElse: () => Center(
-            child: ElevatedButton(
-              onPressed: () => _showLoginModal(context),
-              child: const Text('Save My Trip'),
-            ),
-          ),
-        ),
+        child: authState is Authenticated
+            ? UserProfileScreen(
+                user: authState.user,
+                onLogout: () => ref.read(authProvider.notifier).logout(),
+              )
+            : Center(
+                child: ElevatedButton(
+                  onPressed: () => _showLoginModal(context),
+                  child: const Text('Save My Trip'),
+                ),
+              ),
       ),
     );
   }
@@ -101,8 +99,8 @@ class UserProfileScreen extends HookConsumerWidget {
               itemBuilder: (context, index) {
                 final trip = trips[index];
                 return HearthstoneCard(
-                  title: trip.city,
-                  description: trip.country,
+                  title: trip.destination,
+                  description: '${trip.numberOfDays} days',
                   // TODO: on tap to trip details
                   onTap: () {},
                 );

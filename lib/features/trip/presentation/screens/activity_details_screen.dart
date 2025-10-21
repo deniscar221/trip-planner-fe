@@ -29,7 +29,7 @@ class ActivityDetailsScreen extends StatelessWidget {
                     ? Image.network(
                         activity.image!,
                         fit: BoxFit.cover,
-                        color: AppColors.black.withOpacity(0.3),
+                        color: AppColors.black.withAlpha(77),
                         colorBlendMode: BlendMode.darken,
                         errorBuilder: (context, error, stackTrace) {
                           // Show the placeholder on error
@@ -95,7 +95,7 @@ class ActivityDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Theme.of(context).primaryColor.withOpacity(0.7),
+            Theme.of(context).primaryColor.withAlpha(178),
             Theme.of(context).primaryColor,
           ],
           begin: Alignment.topLeft,

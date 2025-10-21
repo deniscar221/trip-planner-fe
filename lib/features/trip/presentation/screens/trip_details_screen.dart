@@ -181,6 +181,7 @@ class TripDetailsScreen extends StatelessWidget {
                       lastDate: DateTime.now().add(const Duration(days: 365)),
                     );
                     if (dateRange != null) {
+                      if (!context.mounted) return;
                       context
                           .read<TripDetailsBloc>()
                           .add(SelectDateRange(dateRange));

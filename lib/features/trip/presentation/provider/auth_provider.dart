@@ -1,27 +1,28 @@
 import 'package:ai_trip_planner/features/trip/data/models/user_model.dart';
-import 'package.flutter_riverpod/flutter_riverpod.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier();
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier() : super(const AuthState.initial());
+  AuthNotifier() : super(AuthInitial());
 
   void login(String username, String password) async {
-    state = const AuthState.loading();
+    state = AuthLoading();
     try {
       // Simulate API call
       await Future.delayed(const Duration(seconds: 1));
       const token = 'fake-jwt-token';
       final user = User(username: username, email: 'user@example.com');
-      state = AuthState.authenticated(token, user);
+      state = Authenticated(token, user);
     } catch (e) {
-      state = AuthState.error(e.toString());
+      state = AuthError(e.toString());
     }
   }
 
   void logout() {
-    state = const AuthState.initial();
+    state = AuthInitial();
   }
 }

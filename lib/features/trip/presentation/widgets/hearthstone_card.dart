@@ -119,7 +119,7 @@ class _HearthstoneCardState extends State<HearthstoneCard>
                       gradient: widget.imageUrl == null
                           ? LinearGradient(
                               colors: [
-                                Theme.of(context).primaryColor.withOpacity(0.7),
+                                Theme.of(context).primaryColor.withAlpha(178),
                                 Theme.of(context).primaryColor,
                               ],
                               begin: Alignment.topLeft,
@@ -211,9 +211,9 @@ class _HearthstoneCardState extends State<HearthstoneCard>
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                                 colors: [
-                                  AppColors.white.withOpacity(0.0),
-                                  AppColors.white.withOpacity(0.4),
-                                  AppColors.white.withOpacity(0.0),
+                                  AppColors.white.withAlpha(0),
+                                  AppColors.white.withAlpha(102),
+                                  AppColors.white.withAlpha(0),
                                 ],
                                 stops: const [0.4, 0.5, 0.6],
                               ),
@@ -248,7 +248,7 @@ class _HearthstoneCardState extends State<HearthstoneCard>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.black.withOpacity(0.7),
+        color: AppColors.black.withAlpha(178),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

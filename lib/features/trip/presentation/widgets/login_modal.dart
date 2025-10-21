@@ -7,7 +7,9 @@ import 'package:ai_trip_planner/features/trip/presentation/bloc/auth_state.dart'
 import 'package:ai_trip_planner/injection_container.dart';
 
 class LoginModal extends StatefulWidget {
-  const LoginModal({super.key});
+  final VoidCallback onLoginSuccess;
+
+  const LoginModal({super.key, required this.onLoginSuccess});
 
   @override
   State<LoginModal> createState() => _LoginModalState();
@@ -72,12 +74,15 @@ class _LoginModalState extends State<LoginModal> {
                     backgroundColor: Colors.green,
                   ),
                 );
+                final navigator = Navigator.of(context);
                 Future.delayed(const Duration(milliseconds: 500), () {
                   if (mounted) {
-                    Navigator.of(context).pop();
+                    widget.onLoginSuccess();
+                    navigator.pop();
                   }
                 });
               } else if (state is AuthFailure) {
+                if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Invalid credentials. Please try again.'),
