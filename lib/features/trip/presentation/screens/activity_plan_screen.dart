@@ -1,6 +1,9 @@
 import 'package:ai_trip_planner/core/theme/app_colors.dart';
 import 'package:ai_trip_planner/core/widgets/custom_app_bar.dart';
 import 'package:ai_trip_planner/core/widgets/error_state_widget.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/activity_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +12,11 @@ import 'package:ai_trip_planner/features/trip/presentation/bloc/activity_plan_ev
 import 'package:ai_trip_planner/features/trip/presentation/bloc/activity_plan_state.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/activity_selection_modal.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/animated_list_item.dart';
-import 'package:ai_trip_planner/features/trip/presentation/screens/save_share_book_screen.dart';
+import 'package:ai_trip_planner/features/trip/presentation/widgets/login_modal.dart';
+import 'package:ai_trip_planner/features/trip/presentation/screens/profile_screen.dart';
 import 'package:ai_trip_planner/injection_container.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ActivityPlanScreen extends StatelessWidget {
   final String destination;
@@ -260,20 +265,48 @@ class ActivityPlanScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Center(
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
-          ),
-          onPressed: isEnabled
-              ? () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SaveShareBookScreen(),
-                    ),
-                  );
-                }
-              : null,
-          child: const Text('Save Trip'),
+        child: Consumer(
+          builder: (context, ref, child) {
+            final authState = ref.watch(authProvider);
+
+            return ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+              ),
+              onPressed: isEnabled
+                  ? () {
+                      if (authState is Authenticated) {
+                        ref.read(tripProvider.notifier).finalize();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ProfileScreen(user: authState.user),
+                          ),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) => LoginModal(
+                            onLoginSuccess: () {
+                              ref.read(tripProvider.notifier).finalize();
+                              final updatedAuthState = ref.read(authProvider);
+                              if (updatedAuthState is Authenticated) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => ProfileScreen(
+                                        user: updatedAuthState.user),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        );
+                      }
+                    }
+                  : null,
+              child: const Text('Save Trip'),
+            );
+          },
         ),
       ),
     );

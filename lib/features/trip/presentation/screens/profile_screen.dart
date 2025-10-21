@@ -1,0 +1,73 @@
+import 'package:ai_trip_planner/features/trip/data/models/user_model.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/widgets/hearthstone_card.dart';
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+class ProfileScreen extends HookConsumerWidget {
+  final User user;
+
+  const ProfileScreen({
+    super.key,
+    required this.user,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userTrips = ref.watch(userTripsProvider);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Your Profile'),
+        actions: [
+          IconButton(
+            onPressed: () => ref.read(authProvider.notifier).logout(),
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const CircleAvatar(radius: 30),
+                const SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(user.username,
+                        style: Theme.of(context).textTheme.titleLarge),
+                    Text(user.email),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            const Text('My Trips', style: TextStyle(fontSize: 20)),
+            const SizedBox(height: 16),
+            Expanded(
+              child: userTrips.when(
+                data: (trips) => ListView.builder(
+                  itemCount: trips.length,
+                  itemBuilder: (context, index) {
+                    final trip = trips[index];
+                    return HearthstoneCard(
+                      title: trip.destination,
+                      description: '${trip.numberOfDays} days',
+                      onTap: () {},
+                    );
+                  },
+                ),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (err, stack) => Center(child: Text('Error: $err')),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

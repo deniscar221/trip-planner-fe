@@ -1,21 +1,19 @@
 import 'package:ai_trip_planner/core/theme/app_colors.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ai_trip_planner/features/trip/presentation/bloc/auth_bloc.dart';
-import 'package:ai_trip_planner/features/trip/presentation/bloc/auth_event.dart';
-import 'package:ai_trip_planner/features/trip/presentation/bloc/auth_state.dart';
-import 'package:ai_trip_planner/injection_container.dart';
+import 'package.hooks_riverpod/hooks_riverpod.dart';
 
-class LoginModal extends StatefulWidget {
+class LoginModal extends StatefulHookConsumerWidget {
   final VoidCallback onLoginSuccess;
 
   const LoginModal({super.key, required this.onLoginSuccess});
 
   @override
-  State<LoginModal> createState() => _LoginModalState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginModalState();
 }
 
-class _LoginModalState extends State<LoginModal> {
+class _LoginModalState extends ConsumerState<LoginModal> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
@@ -60,121 +58,112 @@ class _LoginModalState extends State<LoginModal> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<AuthBloc>(),
-      child: Dialog(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) {
-              if (state is AuthSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Success! You are now logged in.'),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-                final navigator = Navigator.of(context);
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  if (mounted) {
-                    widget.onLoginSuccess();
-                    navigator.pop();
-                  }
-                });
-              } else if (state is AuthFailure) {
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Invalid credentials. Please try again.'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              }
-            },
-            builder: (context, state) {
-              final isLoading = state is AuthLoading;
+    ref.listen<AuthState>(authProvider, (previous, next) {
+      if (next is Authenticated) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Success! You are now logged in.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        final navigator = Navigator.of(context);
+        Future.delayed(const Duration(milliseconds: 500), () {
+          widget.onLoginSuccess();
+          navigator.pop();
+        });
+      } else if (next is AuthError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(next.message),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    });
 
-              return Column(
-                mainAxisSize: MainAxisSize.min,
+    final authState = ref.watch(authProvider);
+    final isLoading = authState is AuthLoading;
+
+    return Dialog(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              _isSigningUp ? 'Sign Up' : 'Sign In',
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _usernameController,
+              decoration: const InputDecoration(labelText: 'Username'),
+              enabled: !isLoading,
+            ),
+            const SizedBox(height: 16),
+            if (_isSigningUp)
+              Column(
                 children: [
-                  Text(
-                    _isSigningUp ? 'Sign Up' : 'Sign In',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    enabled: !isLoading,
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _usernameController,
-                    decoration: const InputDecoration(labelText: 'Username'),
-                    enabled: !isLoading,
-                  ),
-                  const SizedBox(height: 16), // Increased spacing
-                  if (_isSigningUp)
-                    Column(
-                      children: [
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(labelText: 'Email'),
-                          enabled: !isLoading,
-                        ),
-                        const SizedBox(height: 16), // Increased spacing
-                      ],
-                    ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    enabled: !isLoading,
-                  ),
-                  const SizedBox(height: 24),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 48),
-                    ),
-                    onPressed: (isLoading || !_isButtonEnabled)
-                        ? null
-                        : () {
-                            if (_isSigningUp) {
-                              context.read<AuthBloc>().add(SignUp(
-                                    _usernameController.text,
-                                    _emailController.text,
-                                    _passwordController.text,
-                                  ));
-                            } else {
-                              context.read<AuthBloc>().add(SignIn(
-                                    _usernameController.text,
-                                    _passwordController.text,
-                                  ));
-                            }
-                          },
-                    child: isLoading
-                        ? const SizedBox(
-                            height: 24,
-                            width: 24,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: AppColors.white,
-                            ),
-                          )
-                        : Text(_isSigningUp ? 'Sign Up' : 'Sign In'),
-                  ),
-                  TextButton(
-                    onPressed: isLoading
-                        ? null
-                        : () {
-                            setState(() {
-                              _isSigningUp = !_isSigningUp;
-                              _validateFields();
-                            });
-                          },
-                    child: Text(_isSigningUp
-                        ? 'Already have an account? Sign In'
-                        : "Don't have an account? Sign Up"),
-                  ),
                 ],
-              );
-            },
-          ),
+              ),
+            TextFormField(
+              controller: _passwordController,
+              decoration: const InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              enabled: !isLoading,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 48),
+              ),
+              onPressed: (isLoading || !_isButtonEnabled)
+                  ? null
+                  : () {
+                      if (_isSigningUp) {
+                        ref.read(authProvider.notifier).signUp(
+                              _usernameController.text,
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                      } else {
+                        ref.read(authProvider.notifier).login(
+                              _usernameController.text,
+                              _passwordController.text,
+                            );
+                      }
+                    },
+              child: isLoading
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.white,
+                      ),
+                    )
+                  : Text(_isSigningUp ? 'Sign Up' : 'Sign In'),
+            ),
+            TextButton(
+              onPressed: isLoading
+                  ? null
+                  : () {
+                      setState(() {
+                        _isSigningUp = !_isSigningUp;
+                        _validateFields();
+                      });
+                    },
+              child: Text(_isSigningUp
+                  ? 'Already have an account? Sign In'
+                  : "Don't have an account? Sign Up"),
+            ),
+          ],
         ),
       ),
     );
