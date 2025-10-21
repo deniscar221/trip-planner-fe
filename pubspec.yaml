@@ -50,6 +50,7 @@ dependencies:
   hooks_riverpod: ^2.5.1
   flutter_riverpod: ^2.5.1
   logging: ^1.2.0
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:

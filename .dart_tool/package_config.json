@@ -374,6 +374,12 @@
       "languageVersion": "3.6"
     },
     {
+      "name": "jwt_decoder",
+      "rootUri": "file:///home/user/.pub-cache/hosted/pub.dev/jwt_decoder-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "leak_tracker",
       "rootUri": "file:///home/user/.pub-cache/hosted/pub.dev/leak_tracker-11.0.2",
       "packageUri": "lib/",

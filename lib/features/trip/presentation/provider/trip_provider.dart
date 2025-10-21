@@ -1,23 +1,34 @@
-
+import 'package:ai_trip_planner/features/trip/domain/repositories/trip_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import '../../../../injection_container.dart';
 import '../../data/models/itinerary_response_model.dart';
 
 final tripProvider =
-    StateNotifierProvider<TripNotifier, AsyncValue<ItineraryResponseModel>>(
+    StateNotifierProvider<TripNotifier, AsyncValue<ItineraryResponseModel?>>(
         (ref) {
-  return TripNotifier();
+  return TripNotifier(sl<TripRepository>());
 });
 
-class TripNotifier extends StateNotifier<AsyncValue<ItineraryResponseModel>> {
-  TripNotifier() : super(const AsyncValue.loading());
+class TripNotifier extends StateNotifier<AsyncValue<ItineraryResponseModel?>> {
+  final TripRepository _tripRepository;
+  int? _tripId;
 
-  void finalize() async {
-    // TODO finalize trip
+  TripNotifier(this._tripRepository) : super(const AsyncValue.data(null));
+
+  void setTrip(ItineraryResponseModel trip) {
+    _tripId = trip.id;
+    state = AsyncValue.data(trip);
+  }
+
+  Future<void> finalize() async {
+    if (_tripId != null) {
+      await _tripRepository.finalizeTrip(_tripId!);
+    }
   }
 }
 
-final userTripsProvider = FutureProvider<List<ItineraryResponseModel>>((ref) async {
+final userTripsProvider =
+    FutureProvider<List<ItineraryResponseModel>>((ref) async {
   // TODO fetch user trips from API
   return [];
 });

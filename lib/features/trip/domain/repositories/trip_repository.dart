@@ -22,4 +22,6 @@ abstract class TripRepository {
   Future<String> signIn(String username, String password);
 
   Future<String> signUp(String username, String email, String password);
+
+  Future<void> finalizeTrip(int tripId);
 }

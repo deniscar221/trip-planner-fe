@@ -100,4 +100,9 @@ class TripRepositoryImpl implements TripRepository {
     );
     return response.data['accessToken'];
   }
+
+  @override
+  Future<void> finalizeTrip(int tripId) async {
+    await dio.post('/trip/$tripId/finalize');
+  }
 }

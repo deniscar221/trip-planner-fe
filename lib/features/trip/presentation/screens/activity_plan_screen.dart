@@ -18,7 +18,7 @@ import 'package:ai_trip_planner/injection_container.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ActivityPlanScreen extends StatelessWidget {
+class ActivityPlanScreen extends ConsumerWidget {
   final String destination;
   final String? departureCity;
   final int numberOfChildren;
@@ -39,7 +39,7 @@ class ActivityPlanScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return BlocProvider(
       create: (_) => sl<ActivityPlanBloc>()
         ..add(GetInitialActivityPlan(
@@ -56,27 +56,30 @@ class ActivityPlanScreen extends StatelessWidget {
         backgroundColor: Colors.grey[100],
         body: BlocConsumer<ActivityPlanBloc, ActivityPlanState>(
           listener: (context, state) {
-            if (state is ActivityPlanLoaded &&
-                state.suggestedActivities != null) {
-              final bloc = context.read<ActivityPlanBloc>();
-              showDialog(
-                context: context,
-                builder: (_) => ActivitySelectionModal(
-                  activities: state.suggestedActivities!,
-                  onActivitySelected: (activity) {
-                    final tripId = state.itinerary.id;
-                    final dayNumber = state.dayNumberForSuggestions;
-                    if (dayNumber != null) {
-                      bloc.add(
-                          SelectActivityForDay(tripId, dayNumber, activity));
-                    }
-                    if (!context.mounted) return;
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ).then((_) {
-                bloc.add(ClearSuggestedActivities());
-              });
+            if (state is ActivityPlanLoaded) {
+              ref.read(tripProvider.notifier).setTrip(state.itinerary);
+
+              if (state.suggestedActivities != null) {
+                final bloc = context.read<ActivityPlanBloc>();
+                showDialog(
+                  context: context,
+                  builder: (_) => ActivitySelectionModal(
+                    activities: state.suggestedActivities!,
+                    onActivitySelected: (activity) {
+                      final tripId = state.itinerary.id;
+                      final dayNumber = state.dayNumberForSuggestions;
+                      if (dayNumber != null) {
+                        bloc.add(
+                            SelectActivityForDay(tripId, dayNumber, activity));
+                      }
+                      if (!context.mounted) return;
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ).then((_) {
+                  bloc.add(ClearSuggestedActivities());
+                });
+              }
             }
           },
           builder: (context, state) {

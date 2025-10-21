@@ -21,6 +21,7 @@
         "hooks_riverpod",
         "intl",
         "json_annotation",
+        "jwt_decoder",
         "logging",
         "lottie",
         "share_plus"
@@ -129,6 +130,11 @@
         "test_api",
         "vector_math"
       ]
+    },
+    {
+      "name": "jwt_decoder",
+      "version": "2.0.1",
+      "dependencies": []
     },
     {
       "name": "logging",

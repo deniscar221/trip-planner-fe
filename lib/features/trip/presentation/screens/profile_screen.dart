@@ -1,6 +1,7 @@
 import 'package:ai_trip_planner/features/trip/data/models/user_model.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/screens/plan_your_adventure_screen.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/hearthstone_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,7 +23,14 @@ class ProfileScreen extends HookConsumerWidget {
         title: const Text('Your Profile'),
         actions: [
           IconButton(
-            onPressed: () => ref.read(authProvider.notifier).logout(),
+            onPressed: () {
+              ref.read(authProvider.notifier).logout();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                    builder: (context) => const PlanYourAdventureScreen()),
+                (route) => false,
+              );
+            },
             icon: const Icon(Icons.logout),
           ),
         ],

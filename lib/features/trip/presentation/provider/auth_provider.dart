@@ -1,48 +1,61 @@
 import 'package:ai_trip_planner/features/trip/data/models/user_model.dart';
+import 'package:ai_trip_planner/features/trip/domain/repositories/trip_repository.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+
+import '../../../../injection_container.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  return AuthNotifier();
+  return AuthNotifier(sl<TripRepository>(), sl<FlutterSecureStorage>());
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier() : super(AuthInitial());
+  final TripRepository _tripRepository;
+  final FlutterSecureStorage _secureStorage;
+
+  AuthNotifier(this._tripRepository, this._secureStorage) : super(AuthInitial());
 
   Future<void> login(String username, String password) async {
     state = AuthLoading();
     try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 1));
-      if (username == 'test' && password == 'password') {
-        const token = 'fake-jwt-token';
-        final user = User(username: username, email: 'user@example.com');
-        state = Authenticated(token, user);
-      } else {
+      final token = await _tripRepository.signIn(username, password);
+      await _secureStorage.write(key: 'token', value: token);
+      final decodedToken = JwtDecoder.decode(token);
+      final user = User(
+          username: decodedToken['username'], email: decodedToken['email']);
+      state = Authenticated(token, user);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 401) {
         state = const AuthError('Invalid username or password');
+      } else {
+        state = const AuthError('An unexpected error occurred');
       }
-    } catch (e) {
-      state = const AuthError('An unexpected error occurred');
     }
   }
 
   Future<void> signUp(String username, String email, String password) async {
     state = AuthLoading();
     try {
-      await Future.delayed(const Duration(seconds: 1));
-      if (username.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
-        const token = 'fake-jwt-token';
-        final user = User(username: username, email: email);
-        state = Authenticated(token, user);
+      final token = await _tripRepository.signUp(username, email, password);
+      await _secureStorage.write(key: 'token', value: token);
+      final decodedToken = JwtDecoder.decode(token);
+      final user = User(
+          username: decodedToken['username'], email: decodedToken['email']);
+      state = Authenticated(token, user);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 400) {
+        state = const AuthError('Username or email already exists');
       } else {
-        state = const AuthError('Please fill all fields');
+        state = const AuthError('An unexpected error occurred');
       }
-    } catch (e) {
-      state = const AuthError('An unexpected error occurred');
     }
   }
 
-  void logout() {
+  Future<void> logout() async {
+    await _secureStorage.delete(key: 'token');
     state = AuthInitial();
   }
 }
