@@ -112,7 +112,7 @@ class TripRepositoryImpl implements TripRepository {
 
   @override
   Future<List<ItineraryResponseModel>> getUserTrips() async {
-    final response = await dio.get('/trip');
+    final response = await dio.get('/trips');
     return (response.data as List)
         .map((trip) => ItineraryResponseModel.fromJson(trip))
         .toList();
