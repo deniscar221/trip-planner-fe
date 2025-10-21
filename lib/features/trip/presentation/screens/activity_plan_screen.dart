@@ -1,6 +1,7 @@
 import 'package:ai_trip_planner/core/theme/app_colors.dart';
 import 'package:ai_trip_planner/core/widgets/custom_app_bar.dart';
 import 'package:ai_trip_planner/core/widgets/error_state_widget.dart';
+import 'package:ai_trip_planner/features/trip/data/models/itinerary_response_model.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
@@ -16,41 +17,50 @@ import 'package:ai_trip_planner/features/trip/presentation/widgets/login_modal.d
 import 'package:ai_trip_planner/features/trip/presentation/screens/profile_screen.dart';
 import 'package:ai_trip_planner/injection_container.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivityPlanScreen extends ConsumerWidget {
-  final String destination;
+  final String? destination;
   final String? departureCity;
-  final int numberOfChildren;
-  final int numberOfAdults;
-  final String fromDate;
-  final String toDate;
-  final List<String> interests;
+  final int? numberOfChildren;
+  final int? numberOfAdults;
+  final String? fromDate;
+  final String? toDate;
+  final List<String>? interests;
+  final ItineraryResponseModel? trip;
 
   const ActivityPlanScreen({
     super.key,
-    required this.destination,
+    this.destination,
     this.departureCity,
-    required this.numberOfChildren,
-    required this.numberOfAdults,
-    required this.fromDate,
-    required this.toDate,
-    required this.interests,
+    this.numberOfChildren,
+    this.numberOfAdults,
+    this.fromDate,
+    this.toDate,
+    this.interests,
+    this.trip,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return BlocProvider(
-      create: (_) => sl<ActivityPlanBloc>()
-        ..add(GetInitialActivityPlan(
-          destination: destination,
-          departureCity: departureCity,
-          numberOfChildren: numberOfChildren,
-          numberOfAdults: numberOfAdults,
-          fromDate: fromDate,
-          toDate: toDate,
-          interests: interests,
-        )),
+      create: (_) {
+        final bloc = sl<ActivityPlanBloc>();
+        if (trip != null) {
+          bloc.add(ViewTrip(trip!));
+        } else {
+          bloc.add(GetInitialActivityPlan(
+            destination: destination!,
+            departureCity: departureCity,
+            numberOfChildren: numberOfChildren!,
+            numberOfAdults: numberOfAdults!,
+            fromDate: fromDate!,
+            toDate: toDate!,
+            interests: interests!,
+          ));
+        }
+        return bloc;
+      },
       child: Scaffold(
         appBar: const CustomAppBar(title: 'Activity Plan'),
         backgroundColor: Colors.grey[100],
@@ -94,24 +104,28 @@ class ActivityPlanScreen extends ConsumerWidget {
                   Expanded(
                     child: _buildDayCards(context, state),
                   ),
-                  _buildSaveTripButton(context, isButtonEnabled),
+                  if (trip == null)
+                    _buildSaveTripButton(context, isButtonEnabled),
                 ],
               );
             } else if (state is ActivityPlanError) {
               return ErrorStateWidget(
                 message: 'Oops! Something went wrong.',
                 onTryAgain: () {
-                  context.read<ActivityPlanBloc>().add(
-                        GetInitialActivityPlan(
-                          destination: destination,
-                          departureCity: departureCity,
-                          numberOfChildren: numberOfChildren,
-                          numberOfAdults: numberOfAdults,
-                          fromDate: fromDate,
-                          toDate: toDate,
-                          interests: interests,
-                        ),
-                      );
+                  final bloc = context.read<ActivityPlanBloc>();
+                  if (trip != null) {
+                    bloc.add(ViewTrip(trip!));
+                  } else {
+                    bloc.add(GetInitialActivityPlan(
+                      destination: destination!,
+                      departureCity: departureCity,
+                      numberOfChildren: numberOfChildren!,
+                      numberOfAdults: numberOfAdults!,
+                      fromDate: fromDate!,
+                      toDate: toDate!,
+                      interests: interests!,
+                    ));
+                  }
                 },
               );
             }
@@ -230,7 +244,7 @@ class ActivityPlanScreen extends ConsumerWidget {
             ),
           );
         }),
-        if (dayPlan.canFitAnotherActivityInTheSameDay)
+        if (dayPlan.canFitAnotherActivityInTheSameDay && trip == null)
           AnimatedListItem(
             index: activities.length,
             child: GestureDetector(

@@ -1,6 +1,7 @@
 import 'package:ai_trip_planner/features/trip/data/models/user_model.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/screens/activity_plan_screen.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/plan_your_adventure_screen.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/hearthstone_card.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,13 @@ class ProfileScreen extends HookConsumerWidget {
                     return HearthstoneCard(
                       title: trip.destination,
                       description: '${trip.numberOfDays} days',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ActivityPlanScreen(trip: trip),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),

@@ -1,3 +1,4 @@
+import 'package:ai_trip_planner/features/trip/data/models/itinerary_response_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ai_trip_planner/features/trip/data/models/activity_model.dart';
 
@@ -36,6 +37,15 @@ class GetInitialActivityPlan extends ActivityPlanEvent {
         toDate,
         interests,
       ];
+}
+
+class ViewTrip extends ActivityPlanEvent {
+  final ItineraryResponseModel trip;
+
+  const ViewTrip(this.trip);
+
+  @override
+  List<Object> get props => [trip];
 }
 
 class GetSuggestedActivitiesForDay extends ActivityPlanEvent {

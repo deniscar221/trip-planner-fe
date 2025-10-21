@@ -12,9 +12,14 @@ class ActivityPlanBloc extends Bloc<ActivityPlanEvent, ActivityPlanState> {
   ActivityPlanBloc({required this.tripRepository})
       : super(ActivityPlanInitial()) {
     on<GetInitialActivityPlan>(_onGetInitialActivityPlan);
+    on<ViewTrip>(_onViewTrip);
     on<GetSuggestedActivitiesForDay>(_onGetSuggestedActivitiesForDay);
     on<SelectActivityForDay>(_onSelectActivityForDay);
     on<ClearSuggestedActivities>(_onClearSuggestedActivities);
+  }
+
+  void _onViewTrip(ViewTrip event, Emitter<ActivityPlanState> emit) {
+    emit(ActivityPlanLoaded(itinerary: event.trip));
   }
 
   void _onGetInitialActivityPlan(
@@ -71,7 +76,8 @@ class ActivityPlanBloc extends Bloc<ActivityPlanEvent, ActivityPlanState> {
       knownActivityDetails[event.activity.name] = event.activity;
 
       final correctedDayPlans = responseItinerary.dayPlans.map((serverDayPlan) {
-        final correctedActivities = serverDayPlan.activities.map((serverActivity) {
+        final correctedActivities =
+            serverDayPlan.activities.map((serverActivity) {
           final clientDetails = knownActivityDetails[serverActivity.name];
           // Manually construct the new ActivityModel to ensure correctness
           return ActivityModel(
@@ -89,7 +95,8 @@ class ActivityPlanBloc extends Bloc<ActivityPlanEvent, ActivityPlanState> {
         return serverDayPlan.copyWith(activities: correctedActivities);
       }).toList();
 
-      final finalItinerary = responseItinerary.copyWith(dayPlans: correctedDayPlans);
+      final finalItinerary =
+          responseItinerary.copyWith(dayPlans: correctedDayPlans);
 
       emit(currentState.copyWith(
         itinerary: finalItinerary,
