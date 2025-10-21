@@ -15,8 +15,10 @@
         "equatable",
         "flutter",
         "flutter_bloc",
+        "flutter_riverpod",
         "flutter_secure_storage",
         "get_it",
+        "hooks_riverpod",
         "intl",
         "json_annotation",
         "lottie",
@@ -975,6 +977,17 @@
       ]
     },
     {
+      "name": "leak_tracker",
+      "version": "11.0.2",
+      "dependencies": [
+        "clock",
+        "collection",
+        "meta",
+        "path",
+        "vm_service"
+      ]
+    },
+    {
       "name": "term_glyph",
       "version": "1.2.2",
       "dependencies": []
@@ -1046,6 +1059,11 @@
       "dependencies": []
     },
     {
+      "name": "vm_service",
+      "version": "15.0.0",
+      "dependencies": []
+    },
+    {
       "name": "sprintf",
       "version": "7.0.0",
       "dependencies": []
@@ -1110,20 +1128,51 @@
       ]
     },
     {
-      "name": "leak_tracker",
-      "version": "11.0.2",
+      "name": "flutter_riverpod",
+      "version": "2.6.1",
       "dependencies": [
-        "clock",
         "collection",
+        "flutter",
         "meta",
-        "path",
-        "vm_service"
+        "riverpod",
+        "state_notifier"
       ]
     },
     {
-      "name": "vm_service",
-      "version": "15.0.0",
-      "dependencies": []
+      "name": "riverpod",
+      "version": "2.6.1",
+      "dependencies": [
+        "collection",
+        "meta",
+        "stack_trace",
+        "state_notifier"
+      ]
+    },
+    {
+      "name": "state_notifier",
+      "version": "1.0.0",
+      "dependencies": [
+        "meta"
+      ]
+    },
+    {
+      "name": "hooks_riverpod",
+      "version": "2.6.1",
+      "dependencies": [
+        "collection",
+        "flutter",
+        "flutter_hooks",
+        "flutter_riverpod",
+        "riverpod",
+        "state_notifier"
+      ]
+    },
+    {
+      "name": "flutter_hooks",
+      "version": "0.21.3+1",
+      "dependencies": [
+        "flutter"
+      ]
     }
   ],
   "configVersion": 1

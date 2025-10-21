@@ -1,87 +1,118 @@
 import 'package:ai_trip_planner/core/widgets/custom_app_bar.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/widgets/hearthstone_card.dart';
+import 'package:ai_trip_planner/features/trip/presentation/widgets/login_modal.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SaveShareBookScreen extends StatefulWidget {
+class SaveShareBookScreen extends StatefulHookConsumerWidget {
   const SaveShareBookScreen({super.key});
 
   @override
-  State<SaveShareBookScreen> createState() => _SaveShareBookScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SaveShareBookScreenState();
 }
 
-class _SaveShareBookScreenState extends State<SaveShareBookScreen> {
-  bool _consentChecked = false;
-
+class _SaveShareBookScreenState extends ConsumerState<SaveShareBookScreen> {
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
+
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Trip Saved!'),
+      appBar: CustomAppBar(
+        title: authState.maybeWhen(
+          authenticated: (_, __) => 'Your Profile',
+          orElse: () => 'Save My Trip',
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: authState.maybeWhen(
+          authenticated: (token, user) => UserProfileScreen(
+            user: user,
+            onLogout: () => ref.read(authProvider.notifier).logout(),
+          ),
+          orElse: () => Center(
+            child: ElevatedButton(
+              onPressed: () => _showLoginModal(context),
+              child: const Text('Save My Trip'),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showLoginModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => LoginModal(
+        onLoginSuccess: () {
+          ref.read(tripProvider.notifier).finalize();
+        },
+      ),
+    );
+  }
+}
+
+class UserProfileScreen extends HookConsumerWidget {
+  final User user;
+  final VoidCallback onLogout;
+
+  const UserProfileScreen({
+    super.key,
+    required this.user,
+    required this.onLogout,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userTrips = ref.watch(userTripsProvider);
+
+    return Column(
+      children: [
+        Row(
           children: [
-            Lottie.asset(
-              'assets/animations/trip_saved.json',
-              height: 250,
-              repeat: true,
-              reverse: true,
-            ),
-            const SizedBox(height: 32),
-            Text(
-              'Your trip plan has been saved to your profile.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 48),
-            TextButton.icon(
-              onPressed: () {
-                Share.share('Check out my awesome trip plan!');
-              },
-              icon: const Icon(Icons.share_outlined),
-              label: const Text('Share trip plan with friends'),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              onPressed: _consentChecked
-                  ? () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Offer requested! Check your email.'),
-                        ),
-                      );
-                    }
-                  : null,
-              child: const Text('Request an offer via email'),
-            ),
-            const SizedBox(height: 24),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            const CircleAvatar(radius: 30),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Checkbox(
-                  value: _consentChecked,
-                  onChanged: (value) {
-                    setState(() {
-                      _consentChecked = value!;
-                    });
-                  },
-                ),
-                const Expanded(
-                  child: Text(
-                    'I consent to the processing of my personal data for the purpose of scheduling an appointment and preparing an offer. I can revoke my consent at any time with effect for the future by contacting marketing@dertour-reisebuero.de.',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-                ),
+                Text(user.username,
+                    style: Theme.of(context).textTheme.titleLarge),
+                Text(user.email),
               ],
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: onLogout,
+              icon: const Icon(Icons.logout),
             ),
           ],
         ),
-      ),
+        const SizedBox(height: 24),
+        const Text('My Trips', style: TextStyle(fontSize: 20)),
+        const SizedBox(height: 16),
+        Expanded(
+          child: userTrips.when(
+            data: (trips) => ListView.builder(
+              itemCount: trips.length,
+              itemBuilder: (context, index) {
+                final trip = trips[index];
+                return HearthstoneCard(
+                  title: trip.city,
+                  description: trip.country,
+                  // TODO: on tap to trip details
+                  onTap: () {},
+                );
+              },
+            ),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (err, stack) => Center(child: Text('Error: $err')),
+          ),
+        ),
+      ],
     );
   }
 }
