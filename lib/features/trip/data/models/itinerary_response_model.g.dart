@@ -25,6 +25,8 @@ abstract class _$ItineraryResponseModelCWProxy {
 
   ItineraryResponseModel interests(List<InterestModel> interests);
 
+  ItineraryResponseModel imageUrl(String? imageUrl);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ItineraryResponseModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -41,6 +43,7 @@ abstract class _$ItineraryResponseModelCWProxy {
     bool finalized,
     List<DayPlanModel> dayPlans,
     List<InterestModel> interests,
+    String? imageUrl,
   });
 }
 
@@ -86,6 +89,9 @@ class _$ItineraryResponseModelCWProxyImpl
       this(interests: interests);
 
   @override
+  ItineraryResponseModel imageUrl(String? imageUrl) => this(imageUrl: imageUrl);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ItineraryResponseModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -103,6 +109,7 @@ class _$ItineraryResponseModelCWProxyImpl
     Object? finalized = const $CopyWithPlaceholder(),
     Object? dayPlans = const $CopyWithPlaceholder(),
     Object? interests = const $CopyWithPlaceholder(),
+    Object? imageUrl = const $CopyWithPlaceholder(),
   }) {
     return ItineraryResponseModel(
       id: id == const $CopyWithPlaceholder()
@@ -141,6 +148,10 @@ class _$ItineraryResponseModelCWProxyImpl
           ? _value.interests
           // ignore: cast_nullable_to_non_nullable
           : interests as List<InterestModel>,
+      imageUrl: imageUrl == const $CopyWithPlaceholder()
+          ? _value.imageUrl
+          // ignore: cast_nullable_to_non_nullable
+          : imageUrl as String?,
     );
   }
 }
@@ -172,6 +183,7 @@ ItineraryResponseModel _$ItineraryResponseModelFromJson(
       interests: (json['interests'] as List<dynamic>)
           .map((e) => InterestModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$ItineraryResponseModelToJson(
@@ -186,4 +198,5 @@ Map<String, dynamic> _$ItineraryResponseModelToJson(
       'finalized': instance.finalized,
       'dayPlans': instance.dayPlans.map((e) => e.toJson()).toList(),
       'interests': instance.interests.map((e) => e.toJson()).toList(),
+      'imageUrl': instance.imageUrl,
     };

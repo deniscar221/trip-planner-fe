@@ -64,6 +64,7 @@ class ProfileScreen extends HookConsumerWidget {
                   itemBuilder: (context, index) {
                     final trip = trips[index];
                     return HearthstoneCard(
+                      imageUrl: trip.imageUrl,
                       title: trip.destination,
                       description: '${trip.numberOfDays} days',
                       onTap: () {

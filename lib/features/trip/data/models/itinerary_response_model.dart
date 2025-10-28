@@ -17,6 +17,7 @@ class ItineraryResponseModel {
   final bool finalized;
   final List<DayPlanModel> dayPlans;
   final List<InterestModel> interests;
+  final String? imageUrl;
 
   ItineraryResponseModel({
     required this.id,
@@ -28,6 +29,7 @@ class ItineraryResponseModel {
     required this.finalized,
     required this.dayPlans,
     required this.interests,
+    this.imageUrl,
   });
 
   factory ItineraryResponseModel.fromJson(Map<String, dynamic> json) =>
