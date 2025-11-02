@@ -22,10 +22,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> checkAuth() async {
     final token = await _secureStorage.read(key: 'token');
     if (token != null) {
-      final decodedToken = JwtDecoder.decode(token);
-      final user = User(
-          username: decodedToken['sub'], email: 'user@example.com');
-      state = Authenticated(token, user);
+      if (JwtDecoder.isExpired(token)) {
+        await logout();
+      } else {
+        final decodedToken = JwtDecoder.decode(token);
+        final user = User(
+            username: decodedToken['sub'], email: 'user@example.com');
+        state = Authenticated(token, user);
+      }
     }
   }
 

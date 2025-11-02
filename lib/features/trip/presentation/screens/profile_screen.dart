@@ -1,5 +1,6 @@
 import 'package:ai_trip_planner/features/trip/data/models/user_model.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
+import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/activity_plan_screen.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/plan_your_adventure_screen.dart';
@@ -17,6 +18,16 @@ class ProfileScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen<AuthState>(authProvider, (previous, next) {
+      if (next is AuthInitial) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => const PlanYourAdventureScreen()),
+          (route) => false,
+        );
+      }
+    });
+
     final userTrips = ref.watch(userTripsProvider);
 
     return Scaffold(
@@ -24,14 +35,7 @@ class ProfileScreen extends HookConsumerWidget {
         title: const Text('Your Profile'),
         actions: [
           IconButton(
-            onPressed: () {
-              ref.read(authProvider.notifier).logout();
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                    builder: (context) => const PlanYourAdventureScreen()),
-                (route) => false,
-              );
-            },
+            onPressed: () => ref.read(authProvider.notifier).logout(),
             icon: const Icon(Icons.logout),
           ),
         ],
@@ -78,7 +82,11 @@ class ProfileScreen extends HookConsumerWidget {
                   },
                 ),
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, stack) => Center(child: Text('Error: $err')),
+                error: (err, stack) {
+                  return Center(
+                    child: Text('Error: $err'),
+                  );
+                },
               ),
             ),
           ],

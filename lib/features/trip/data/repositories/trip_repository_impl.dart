@@ -1,22 +1,28 @@
 import 'dart:convert';
 
 import 'package:ai_trip_planner/core/constants/app_constants.dart';
+import 'package:ai_trip_planner/core/network/error_interceptor.dart';
 import 'package:ai_trip_planner/core/network/logging_interceptor.dart';
 import 'package:ai_trip_planner/features/trip/data/models/itinerary_response_model.dart';
 import 'package:ai_trip_planner/features/trip/data/models/suggested_city_model.dart';
 import 'package:ai_trip_planner/features/trip/data/models/activity_model.dart';
 import 'package:ai_trip_planner/features/trip/domain/repositories/trip_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TripRepositoryImpl implements TripRepository {
   final Dio dio;
   final FlutterSecureStorage secureStorage;
 
-  TripRepositoryImpl({required this.dio, required this.secureStorage}) {
+  TripRepositoryImpl(
+      {required this.dio,
+      required this.secureStorage,
+      required ProviderContainer container}) {
     dio.options.baseUrl = AppConstants.baseUrl;
     dio.interceptors.addAll([
       LoggingInterceptor(),
+      ErrorInterceptor(container),
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final token = await secureStorage.read(key: 'token');

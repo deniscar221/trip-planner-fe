@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ai_trip_planner/features/trip/data/repositories/trip_repository_impl.dart';
 import 'package:ai_trip_planner/features/trip/domain/repositories/trip_repository.dart';
@@ -15,9 +16,13 @@ void init() {
   sl.registerLazySingleton(() => const FlutterSecureStorage());
   sl.registerLazySingleton(() => Dio());
 
+  // Riverpod
+  final container = ProviderContainer();
+  sl.registerLazySingleton<ProviderContainer>(() => container);
+
   // Register repositories
-  sl.registerLazySingleton<TripRepository>(
-      () => TripRepositoryImpl(dio: sl(), secureStorage: sl()));
+  sl.registerLazySingleton<TripRepository>(() => TripRepositoryImpl(
+      dio: sl(), secureStorage: sl(), container: container));
 
   // Register BLoCs
   sl.registerFactory(() => PlanYourAdventureBloc());
