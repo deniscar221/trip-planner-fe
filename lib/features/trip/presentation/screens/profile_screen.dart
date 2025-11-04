@@ -33,12 +33,6 @@ class ProfileScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Profile'),
-        actions: [
-          IconButton(
-            onPressed: () => ref.read(authProvider.notifier).logout(),
-            icon: const Icon(Icons.logout),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -56,6 +50,12 @@ class ProfileScreen extends HookConsumerWidget {
                     Text(user.email),
                   ],
                 ),
+                const Spacer(),
+                OutlinedButton.icon(
+                  onPressed: () => ref.read(authProvider.notifier).logout(),
+                  icon: const Icon(Icons.logout),
+                  label: const Text('Logout'),
+                ),
               ],
             ),
             const SizedBox(height: 24),
@@ -67,8 +67,12 @@ class ProfileScreen extends HookConsumerWidget {
                   itemCount: trips.length,
                   itemBuilder: (context, index) {
                     final trip = trips[index];
+                    final imageUrl = trip.dayPlans.isNotEmpty &&
+                            trip.dayPlans.first.activities.isNotEmpty
+                        ? trip.dayPlans.first.activities.first.imageUrl
+                        : null;
                     return HearthstoneCard(
-                      imageUrl: trip.imageUrl,
+                      imageUrl: imageUrl,
                       title: trip.destination,
                       description: '${trip.numberOfDays} days',
                       onTap: () {
@@ -101,7 +105,7 @@ class ProfileScreen extends HookConsumerWidget {
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
               ),
-              child: const Text('Plan your next trip'),
+              child: const Text('Plan my next trip'),
             ),
           ],
         ),
