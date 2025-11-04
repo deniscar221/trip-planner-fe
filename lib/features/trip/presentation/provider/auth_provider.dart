@@ -9,8 +9,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../../../injection_container.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
-  return AuthNotifier(sl<TripRepository>(), sl<FlutterSecureStorage>())
-    ..checkAuth();
+  return AuthNotifier(sl<TripRepository>(), sl<FlutterSecureStorage>());
 });
 
 class AuthNotifier extends StateNotifier<AuthState> {
