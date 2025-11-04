@@ -185,7 +185,19 @@ class TripDetailsScreen extends StatelessWidget {
                           data: Theme.of(context).copyWith(
                             colorScheme: const ColorScheme.light(
                               primary: AppColors.secondary,
-                              onPrimary: Colors.black,
+                              onPrimary: Colors.white,
+                              onSurface: AppColors.text,
+                            ),
+                            textButtonTheme: TextButtonThemeData(
+                              style: TextButton.styleFrom(
+                                foregroundColor: AppColors.primary,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 24.0),
+                                textStyle: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                           child: child!,
