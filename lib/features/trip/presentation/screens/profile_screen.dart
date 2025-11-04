@@ -67,14 +67,7 @@ class ProfileScreen extends HookConsumerWidget {
                   itemCount: trips.length,
                   itemBuilder: (context, index) {
                     final trip = trips[index];
-                    final int numberOfDays;
-                    if (trip.startDate != null && trip.endDate != null) {
-                      final startDate = DateTime.parse(trip.startDate!);
-                      final endDate = DateTime.parse(trip.endDate!);
-                      numberOfDays = endDate.difference(startDate).inDays + 1;
-                    } else {
-                      numberOfDays = 0;
-                    }
+                    final int numberOfDays = trip.dayPlans.length;
                     final imageUrl = trip.dayPlans.isNotEmpty &&
                             trip.dayPlans.first.activities.isNotEmpty
                         ? trip.dayPlans.first.activities.first.imageUrl
