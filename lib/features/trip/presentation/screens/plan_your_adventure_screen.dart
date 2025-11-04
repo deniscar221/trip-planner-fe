@@ -1,12 +1,13 @@
-import 'package:ai_trip_planner/core/theme/app_colors.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ai_trip_planner/core/widgets/custom_app_bar.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_bloc.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_event.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_state.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/suggested_cities_screen.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/trip_details_screen.dart';
 import 'package:ai_trip_planner/injection_container.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ai_trip_planner/core/theme/app_colors.dart';
 
 class PlanYourAdventureScreen extends StatelessWidget {
   const PlanYourAdventureScreen({super.key});
@@ -16,9 +17,9 @@ class PlanYourAdventureScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => sl<PlanYourAdventureBloc>(),
       child: Scaffold(
-        // The AppBar has been removed to eliminate the double title.
+        appBar: const CustomAppBar(title: 'Plan Your Adventure'),
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 48.0, 16.0, 16.0), // Added top padding
+          padding: const EdgeInsets.all(16.0),
           child: BlocBuilder<PlanYourAdventureBloc, PlanYourAdventureState>(
             builder: (context, state) {
               return Column(
@@ -29,14 +30,6 @@ class PlanYourAdventureScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Plan Your Adventure',
-                             style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium // Use a more prominent style
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 8),
                           Text(
                             'Choose your dream activities and let us plan the perfect trip!',
                             style: Theme.of(context).textTheme.titleMedium,
@@ -72,11 +65,9 @@ class PlanYourAdventureScreen extends StatelessWidget {
       {'icon': Icons.account_balance, 'label': 'Historical Sites'},
     ];
 
-    // No longer needs a fixed height or a SizedBox
     return GridView.builder(
-      shrinkWrap: true, // Important for nested scrolling
-      physics:
-          const NeverScrollableScrollPhysics(), // Parent handles scrolling
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 16,
@@ -207,8 +198,9 @@ class PlanYourAdventureScreen extends StatelessWidget {
         onPressed: isEnabled
             ? () async {
                 if (state.isAiChoice) {
-                   final preferencesForApi = state.selectedActivities
-                      .map((activity) => activity.toLowerCase().replaceAll(' ', '_'))
+                  final preferencesForApi = state.selectedActivities
+                      .map((activity) =>
+                          activity.toLowerCase().replaceAll(' ', '_'))
                       .toList();
                   if (!context.mounted) return;
                   final selectedCity = await Navigator.of(context).push(
