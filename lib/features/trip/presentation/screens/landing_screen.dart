@@ -15,11 +15,11 @@ class LandingScreen extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: [
-          SvgPicture.asset(
-            'assets/images/background.svg',
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
+          Positioned.fill(
+            child: SvgPicture.asset(
+              'assets/images/background_white.svg',
+              fit: BoxFit.cover,
+            ),
           ),
           Center(
             child: Padding(
@@ -28,21 +28,13 @@ class LandingScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
+                  Text(
                     'Welcome to\nAI Trip Planner',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 10.0,
-                          color: Colors.black26,
-                          offset: Offset(2.0, 2.0),
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
-                      ],
-                    ),
                   ),
                   const SizedBox(height: 64),
                   ElevatedButton(
