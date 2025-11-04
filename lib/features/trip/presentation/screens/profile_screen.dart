@@ -4,6 +4,7 @@ import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.d
 import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/activity_plan_screen.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/landing_screen.dart';
+import 'package:ai_trip_planner/features/trip/presentation/screens/plan_your_adventure_screen.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/hearthstone_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -70,7 +71,6 @@ class ProfileScreen extends HookConsumerWidget {
                             trip.dayPlans.first.activities.isNotEmpty
                         ? trip.dayPlans.first.activities.first.image
                         : null;
-
                     return HearthstoneCard(
                       imageUrl: imageUrl,
                       title: trip.destination,
@@ -92,6 +92,20 @@ class ProfileScreen extends HookConsumerWidget {
                   );
                 },
               ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const PlanYourAdventureScreen(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 50),
+              ),
+              child: const Text('Plan your next trip'),
             ),
           ],
         ),

@@ -46,7 +46,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (e.response?.statusCode == 401) {
         state = const AuthError('Invalid username or password');
       } else {
-        state = const AuthError('An unexpected error occurred');
+        state = AuthError(e.response?.data['error'] ?? 'An unexpected error occurred');
       }
     }
   }
@@ -62,7 +62,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = Authenticated(token, user);
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {
-        state = const AuthError('Username or email already exists');
+        state = AuthError(e.response?.data['error'] ?? 'Username or email already exists');
       } else {
         state = const AuthError('An unexpected error occurred');
       }
