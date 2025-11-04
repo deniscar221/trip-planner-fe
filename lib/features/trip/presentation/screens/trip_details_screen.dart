@@ -7,6 +7,7 @@ import 'package:ai_trip_planner/features/trip/presentation/bloc/trip_details_sta
 import 'package:ai_trip_planner/features/trip/presentation/screens/activity_plan_screen.dart';
 import 'package:ai_trip_planner/injection_container.dart';
 import 'package:intl/intl.dart';
+import 'package:ai_trip_planner/core/theme/app_colors.dart';
 
 class TripDetailsScreen extends StatelessWidget {
   final String destination;
@@ -179,6 +180,17 @@ class TripDetailsScreen extends StatelessWidget {
                       context: context,
                       firstDate: DateTime.now(),
                       lastDate: DateTime.now().add(const Duration(days: 365)),
+                      builder: (context, child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                            colorScheme: const ColorScheme.light(
+                              primary: AppColors.secondary,
+                              onPrimary: Colors.black,
+                            ),
+                          ),
+                          child: child!,
+                        );
+                      },
                     );
                     if (dateRange != null) {
                       if (!context.mounted) return;

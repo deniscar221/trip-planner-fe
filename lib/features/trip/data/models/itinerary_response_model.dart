@@ -12,12 +12,14 @@ class ItineraryResponseModel {
   final String destination;
   final int? numberOfDays;
   final String? shareableLink;
-  final String createdAt; // Changed to String to match the API response
+  final String createdAt;
   final int? userId;
   final bool finalized;
   final List<DayPlanModel> dayPlans;
   final List<InterestModel> interests;
   final String? imageUrl;
+  final String? startDate;
+  final String? endDate;
 
   ItineraryResponseModel({
     required this.id,
@@ -30,6 +32,8 @@ class ItineraryResponseModel {
     required this.dayPlans,
     required this.interests,
     this.imageUrl,
+    this.startDate,
+    this.endDate,
   });
 
   factory ItineraryResponseModel.fromJson(Map<String, dynamic> json) =>

@@ -27,6 +27,10 @@ abstract class _$ItineraryResponseModelCWProxy {
 
   ItineraryResponseModel imageUrl(String? imageUrl);
 
+  ItineraryResponseModel startDate(String? startDate);
+
+  ItineraryResponseModel endDate(String? endDate);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ItineraryResponseModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -44,6 +48,8 @@ abstract class _$ItineraryResponseModelCWProxy {
     List<DayPlanModel> dayPlans,
     List<InterestModel> interests,
     String? imageUrl,
+    String? startDate,
+    String? endDate,
   });
 }
 
@@ -92,6 +98,13 @@ class _$ItineraryResponseModelCWProxyImpl
   ItineraryResponseModel imageUrl(String? imageUrl) => this(imageUrl: imageUrl);
 
   @override
+  ItineraryResponseModel startDate(String? startDate) =>
+      this(startDate: startDate);
+
+  @override
+  ItineraryResponseModel endDate(String? endDate) => this(endDate: endDate);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ItineraryResponseModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -110,6 +123,8 @@ class _$ItineraryResponseModelCWProxyImpl
     Object? dayPlans = const $CopyWithPlaceholder(),
     Object? interests = const $CopyWithPlaceholder(),
     Object? imageUrl = const $CopyWithPlaceholder(),
+    Object? startDate = const $CopyWithPlaceholder(),
+    Object? endDate = const $CopyWithPlaceholder(),
   }) {
     return ItineraryResponseModel(
       id: id == const $CopyWithPlaceholder()
@@ -152,6 +167,14 @@ class _$ItineraryResponseModelCWProxyImpl
           ? _value.imageUrl
           // ignore: cast_nullable_to_non_nullable
           : imageUrl as String?,
+      startDate: startDate == const $CopyWithPlaceholder()
+          ? _value.startDate
+          // ignore: cast_nullable_to_non_nullable
+          : startDate as String?,
+      endDate: endDate == const $CopyWithPlaceholder()
+          ? _value.endDate
+          // ignore: cast_nullable_to_non_nullable
+          : endDate as String?,
     );
   }
 }
@@ -184,6 +207,8 @@ ItineraryResponseModel _$ItineraryResponseModelFromJson(
           .map((e) => InterestModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       imageUrl: json['imageUrl'] as String?,
+      startDate: json['startDate'] as String?,
+      endDate: json['endDate'] as String?,
     );
 
 Map<String, dynamic> _$ItineraryResponseModelToJson(
@@ -199,4 +224,6 @@ Map<String, dynamic> _$ItineraryResponseModelToJson(
       'dayPlans': instance.dayPlans.map((e) => e.toJson()).toList(),
       'interests': instance.interests.map((e) => e.toJson()).toList(),
       'imageUrl': instance.imageUrl,
+      'startDate': instance.startDate,
+      'endDate': instance.endDate,
     };
