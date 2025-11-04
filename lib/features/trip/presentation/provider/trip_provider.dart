@@ -19,7 +19,7 @@ class TripNotifier extends StateNotifier<AsyncValue<ItineraryResponseModel?>> {
   TripNotifier(this._tripRepository, this._ref)
       : super(const AsyncValue.data(null));
 
-  void setTrip(ItineraryResponseModel trip) {
+  void setTrip(ItineraryResponse-Model trip) {
     _tripId = trip.id;
     state = AsyncValue.data(trip);
   }
@@ -36,7 +36,8 @@ final userTripsProvider =
     FutureProvider.autoDispose<List<ItineraryResponseModel>>((ref) async {
   final authState = ref.watch(authProvider);
   if (authState is Authenticated) {
-    return sl<TripRepository>().getUserTrips();
+    final allTrips = await sl<TripRepository>().getUserTrips();
+    return allTrips.where((trip) => trip.finalized).toList();
   }
   return [];
 });
