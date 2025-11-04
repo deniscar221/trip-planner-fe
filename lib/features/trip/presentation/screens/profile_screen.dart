@@ -71,12 +71,17 @@ class ProfileScreen extends HookConsumerWidget {
                     if (trip.startDate != null && trip.endDate != null) {
                       final startDate = DateTime.parse(trip.startDate!);
                       final endDate = DateTime.parse(trip.endDate!);
-                      numberOfDays = endDate.difference(startDate).inDays;
+                      numberOfDays = endDate.difference(startDate).inDays + 1;
                     } else {
                       numberOfDays = 0;
                     }
+                    final imageUrl = trip.dayPlans.isNotEmpty &&
+                            trip.dayPlans.first.activities.isNotEmpty
+                        ? trip.dayPlans.first.activities.first.imageUrl
+                        : null;
+
                     return HearthstoneCard(
-                      imageUrl: trip.imageUrl,
+                      imageUrl: imageUrl,
                       title: trip.destination,
                       description: '$numberOfDays days',
                       onTap: () {
