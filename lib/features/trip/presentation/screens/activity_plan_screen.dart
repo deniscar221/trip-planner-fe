@@ -292,7 +292,7 @@ class ActivityPlanScreen extends ConsumerWidget {
                     const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
               ),
               onPressed: isEnabled
-                  ? () {
+                  ? () async {
                       if (authState is Authenticated) {
                         ref.read(tripProvider.notifier).finalize();
                         Navigator.of(context).push(
@@ -301,23 +301,22 @@ class ActivityPlanScreen extends ConsumerWidget {
                           ),
                         );
                       } else {
-                        showDialog(
+                        final result = await showDialog<bool>(
                           context: context,
-                          builder: (context) => LoginModal(
-                            onLoginSuccess: () {
-                              ref.read(tripProvider.notifier).finalize();
-                              final updatedAuthState = ref.read(authProvider);
-                              if (updatedAuthState is Authenticated) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => ProfileScreen(
-                                        user: updatedAuthState.user),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
+                          builder: (context) => const LoginModal(),
                         );
+                        if (result == true) {
+                          ref.read(tripProvider.notifier).finalize();
+                          final updatedAuthState = ref.read(authProvider);
+                          if (updatedAuthState is Authenticated) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    ProfileScreen(user: updatedAuthState.user),
+                              ),
+                            );
+                          }
+                        }
                       }
                     }
                   : null,

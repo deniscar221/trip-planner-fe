@@ -40,22 +40,21 @@ class LandingScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               OutlinedButton(
-                onPressed: () {
-                  showDialog(
+                onPressed: () async {
+                  final result = await showDialog<bool>(
                     context: context,
-                    builder: (context) => LoginModal(
-                      onLoginSuccess: () {
-                        final authState = ref.read(authProvider);
-                        if (authState is Authenticated) {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (_) => ProfileScreen(user: authState.user),
-                            ),
-                          );
-                        }
-                      },
-                    ),
+                    builder: (context) => const LoginModal(),
                   );
+                  if (result == true) {
+                    final authState = ref.read(authProvider);
+                    if (authState is Authenticated) {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (_) => ProfileScreen(user: authState.user),
+                        ),
+                      );
+                    }
+                  }
                 },
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),

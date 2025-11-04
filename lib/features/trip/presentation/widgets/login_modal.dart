@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginModal extends ConsumerStatefulWidget {
-  final VoidCallback onLoginSuccess;
-
-  const LoginModal({super.key, required this.onLoginSuccess});
+  const LoginModal({super.key});
 
   @override
   ConsumerState<LoginModal> createState() => _LoginModalState();
@@ -66,10 +64,10 @@ class _LoginModalState extends ConsumerState<LoginModal> {
             backgroundColor: Colors.green,
           ),
         );
-        final navigator = Navigator.of(context);
         Future.delayed(const Duration(milliseconds: 500), () {
-          widget.onLoginSuccess();
-          navigator.pop();
+          if (mounted) {
+            Navigator.of(context).pop(true);
+          }
         });
       } else if (next is AuthError) {
         ScaffoldMessenger.of(context).showSnackBar(
