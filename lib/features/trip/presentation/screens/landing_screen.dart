@@ -11,14 +11,6 @@ class LandingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen<AuthState>(authProvider, (previous, next) {
-      if (next is Authenticated) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => ProfileScreen(user: next.user)),
-        );
-      }
-    });
-
     return Scaffold(
       body: Center(
         child: Padding(

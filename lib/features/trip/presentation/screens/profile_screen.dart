@@ -3,7 +3,7 @@ import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provide
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/trip_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/screens/activity_plan_screen.dart';
-import 'package:ai_trip_planner/features/trip/presentation/screens/plan_your_adventure_screen.dart';
+import 'package:ai_trip_planner/features/trip/presentation/screens/landing_screen.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/hearthstone_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,8 +21,7 @@ class ProfileScreen extends HookConsumerWidget {
     ref.listen<AuthState>(authProvider, (previous, next) {
       if (next is AuthInitial) {
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => const PlanYourAdventureScreen()),
+          MaterialPageRoute(builder: (context) => const LandingScreen()),
           (route) => false,
         );
       }
@@ -67,8 +66,13 @@ class ProfileScreen extends HookConsumerWidget {
                   itemCount: trips.length,
                   itemBuilder: (context, index) {
                     final trip = trips[index];
+                    final imageUrl = trip.dayPlans.isNotEmpty &&
+                            trip.dayPlans.first.activities.isNotEmpty
+                        ? trip.dayPlans.first.activities.first.image
+                        : null;
+
                     return HearthstoneCard(
-                      imageUrl: trip.imageUrl,
+                      imageUrl: imageUrl,
                       title: trip.destination,
                       description: '${trip.numberOfDays} days',
                       onTap: () {
