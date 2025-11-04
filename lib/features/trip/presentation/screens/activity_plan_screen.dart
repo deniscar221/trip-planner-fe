@@ -309,6 +309,7 @@ class ActivityPlanScreen extends ConsumerWidget {
                           ref.read(tripProvider.notifier).finalize();
                           final updatedAuthState = ref.read(authProvider);
                           if (updatedAuthState is Authenticated) {
+                            if (!context.mounted) return;
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) =>

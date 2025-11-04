@@ -41,7 +41,7 @@ class ActivitySelectionModal extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(right: 16.0),
                     child: HearthstoneCard(
-                      imageUrl: activity.image,
+                      imageUrl: activity.imageUrl,
                       title: activity.name,
                       description: activity.description,
                       onTap: () => onActivitySelected(activity),

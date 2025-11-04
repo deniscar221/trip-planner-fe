@@ -58,6 +58,7 @@ class _LoginModalState extends ConsumerState<LoginModal> {
   Widget build(BuildContext context) {
     ref.listen<AuthState>(authProvider, (previous, next) {
       if (next is Authenticated) {
+        final navigator = Navigator.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Success! You are now logged in.'),
@@ -66,10 +67,11 @@ class _LoginModalState extends ConsumerState<LoginModal> {
         );
         Future.delayed(const Duration(milliseconds: 500), () {
           if (mounted) {
-            Navigator.of(context).pop(true);
+            navigator.pop(true);
           }
         });
       } else if (next is AuthError) {
+        if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(next.message),

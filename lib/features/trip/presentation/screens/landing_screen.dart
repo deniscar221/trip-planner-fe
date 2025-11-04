@@ -48,6 +48,7 @@ class LandingScreen extends ConsumerWidget {
                   if (result == true) {
                     final authState = ref.read(authProvider);
                     if (authState is Authenticated) {
+                      if (!context.mounted) return;
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (_) => ProfileScreen(user: authState.user),
