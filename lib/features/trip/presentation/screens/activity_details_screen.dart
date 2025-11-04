@@ -24,10 +24,10 @@ class ActivityDetailsScreen extends StatelessWidget {
                 ),
               ),
               background: Hero(
-                tag: activity.image ?? 'activity-hero-${activity.id}',
-                child: activity.image != null
+                tag: activity.imageUrl ?? 'activity-hero-${activity.id}',
+                child: activity.imageUrl != null
                     ? Image.network(
-                        activity.image!,
+                        activity.imageUrl!,
                         fit: BoxFit.cover,
                         color: AppColors.black.withAlpha(77),
                         colorBlendMode: BlendMode.darken,

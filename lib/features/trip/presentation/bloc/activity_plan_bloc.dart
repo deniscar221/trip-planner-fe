@@ -36,7 +36,7 @@ class ActivityPlanBloc extends Bloc<ActivityPlanEvent, ActivityPlanState> {
           description: serverActivity.description,
           expectedDurationHours: serverActivity.expectedDurationHours,
           estimatedCostEUR: serverActivity.estimatedCostEUR,
-          image: clientDetails?.image,
+          imageUrl: clientDetails?.imageUrl,
           address: clientDetails?.address,
         );
       }).toList();
@@ -113,7 +113,7 @@ class ActivityPlanBloc extends Bloc<ActivityPlanEvent, ActivityPlanState> {
             description: serverActivity.description,
             expectedDurationHours: serverActivity.expectedDurationHours,
             estimatedCostEUR: serverActivity.estimatedCostEUR,
-            image: clientDetails?.image,
+            imageUrl: clientDetails?.imageUrl,
             address: clientDetails?.address,
           );
         }).toList();

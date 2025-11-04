@@ -19,7 +19,7 @@ abstract class _$ActivityModelCWProxy {
 
   ActivityModel estimatedCostEUR(double estimatedCostEUR);
 
-  ActivityModel image(String? image);
+  ActivityModel imageUrl(String? imageUrl);
 
   ActivityModel address(String? address);
 
@@ -36,7 +36,7 @@ abstract class _$ActivityModelCWProxy {
     String description,
     double expectedDurationHours,
     double estimatedCostEUR,
-    String? image,
+    String? imageUrl,
     String? address,
   });
 }
@@ -69,7 +69,7 @@ class _$ActivityModelCWProxyImpl implements _$ActivityModelCWProxy {
       this(estimatedCostEUR: estimatedCostEUR);
 
   @override
-  ActivityModel image(String? image) => this(image: image);
+  ActivityModel imageUrl(String? imageUrl) => this(imageUrl: imageUrl);
 
   @override
   ActivityModel address(String? address) => this(address: address);
@@ -89,7 +89,7 @@ class _$ActivityModelCWProxyImpl implements _$ActivityModelCWProxy {
     Object? description = const $CopyWithPlaceholder(),
     Object? expectedDurationHours = const $CopyWithPlaceholder(),
     Object? estimatedCostEUR = const $CopyWithPlaceholder(),
-    Object? image = const $CopyWithPlaceholder(),
+    Object? imageUrl = const $CopyWithPlaceholder(),
     Object? address = const $CopyWithPlaceholder(),
   }) {
     return ActivityModel(
@@ -118,10 +118,10 @@ class _$ActivityModelCWProxyImpl implements _$ActivityModelCWProxy {
           ? _value.estimatedCostEUR
           // ignore: cast_nullable_to_non_nullable
           : estimatedCostEUR as double,
-      image: image == const $CopyWithPlaceholder()
-          ? _value.image
+      imageUrl: imageUrl == const $CopyWithPlaceholder()
+          ? _value.imageUrl
           // ignore: cast_nullable_to_non_nullable
-          : image as String?,
+          : imageUrl as String?,
       address: address == const $CopyWithPlaceholder()
           ? _value.address
           // ignore: cast_nullable_to_non_nullable
@@ -148,7 +148,7 @@ ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String,
       expectedDurationHours: (json['expectedDurationHours'] as num).toDouble(),
       estimatedCostEUR: (json['estimatedCostEUR'] as num).toDouble(),
-      image: json['image'] as String?,
+      imageUrl: json['imageUrl'] as String?,
       address: json['address'] as String?,
     );
 
@@ -160,6 +160,6 @@ Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
       'description': instance.description,
       'expectedDurationHours': instance.expectedDurationHours,
       'estimatedCostEUR': instance.estimatedCostEUR,
-      'image': instance.image,
+      'imageUrl': instance.imageUrl,
       'address': instance.address,
     };

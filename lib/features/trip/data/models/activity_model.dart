@@ -12,8 +12,8 @@ class ActivityModel {
   final String description;
   final double expectedDurationHours;
   final double estimatedCostEUR;
-  final String? image; // Made nullable
-  final String? address; // Made nullable
+  final String? imageUrl;
+  final String? address;
 
   ActivityModel({
     this.id,
@@ -22,7 +22,7 @@ class ActivityModel {
     required this.description,
     required this.expectedDurationHours,
     required this.estimatedCostEUR,
-    this.image,
+    this.imageUrl,
     this.address,
   });
 

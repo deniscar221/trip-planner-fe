@@ -69,7 +69,7 @@ class ProfileScreen extends HookConsumerWidget {
                     final trip = trips[index];
                     final imageUrl = trip.dayPlans.isNotEmpty &&
                             trip.dayPlans.first.activities.isNotEmpty
-                        ? trip.dayPlans.first.activities.first.image
+                        ? trip.dayPlans.first.activities.first.imageUrl
                         : null;
                     return HearthstoneCard(
                       imageUrl: imageUrl,

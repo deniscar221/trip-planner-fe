@@ -144,7 +144,7 @@ class ActivityPlanScreen extends ConsumerWidget {
         final dayPlan = state.itinerary.dayPlans[index];
         final bool hasActivities = dayPlan.activities.isNotEmpty;
         final String? firstImage =
-            hasActivities ? dayPlan.activities.first.image : null;
+            hasActivities ? dayPlan.activities.first.imageUrl : null;
 
         return AnimatedListItem(
           index: index,
@@ -220,14 +220,14 @@ class ActivityPlanScreen extends ConsumerWidget {
                 );
               },
               child: Hero(
-                tag: activity.image ?? 'activity-hero-${activity.id}',
+                tag: activity.imageUrl ?? 'activity-hero-${activity.id}',
                 child: CircleAvatar(
                   radius: 30,
                   backgroundColor: Colors.grey[300],
                   child: ClipOval(
-                    child: activity.image != null
+                    child: activity.imageUrl != null
                         ? Image.network(
-                            activity.image!,
+                            activity.imageUrl!,
                             fit: BoxFit.cover,
                             width: 60,
                             height: 60,
