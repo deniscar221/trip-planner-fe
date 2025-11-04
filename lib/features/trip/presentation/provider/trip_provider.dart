@@ -19,7 +19,7 @@ class TripNotifier extends StateNotifier<AsyncValue<ItineraryResponseModel?>> {
   TripNotifier(this._tripRepository, this._ref)
       : super(const AsyncValue.data(null));
 
-  void setTrip(ItineraryResponse-Model trip) {
+  void setTrip(ItineraryResponseModel trip) {
     _tripId = trip.id;
     state = AsyncValue.data(trip);
   }
