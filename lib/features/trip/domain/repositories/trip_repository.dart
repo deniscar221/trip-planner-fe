@@ -7,11 +7,10 @@ abstract class TripRepository {
 
   Future<ItineraryResponseModel> startTrip(
       String destination,
-      String? departureCity,
-      int numberOfChildren,
+      String startDate,
+      String endDate,
       int numberOfAdults,
-      String fromDate,
-      String toDate,
+      int numberOfChildren,
       List<String> interests);
 
   Future<List<ActivityModel>> getSuggestedActivities(int tripId, int dayNumber);

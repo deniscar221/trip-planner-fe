@@ -53,7 +53,8 @@ class TripRepositoryImpl implements TripRepository {
       String startDate,
       String endDate,
       int numberOfAdults,
-      int numberOfChildren) async {
+      int numberOfChildren,
+      List<String> interests) async {
     final response = await dio.post(
       'trip/start',
       data: {
@@ -62,6 +63,7 @@ class TripRepositoryImpl implements TripRepository {
         'endDate': endDate,
         'numberOfAdults': numberOfAdults,
         'numberOfChildren': numberOfChildren,
+        'interests': interests,
       },
     );
     return ItineraryResponseModel.fromJson(response.data);
@@ -77,15 +79,17 @@ class TripRepositoryImpl implements TripRepository {
         .map((activity) => ActivityModel.fromJson(activity))
         .toList();
 
-    for (var activity in activities) {
-      if (activity.imageUrl ==
+    for (var i = 0; i < activities.length; i++) {
+      if (activities[i].imageUrl ==
           'https://asiapioneertravel.com/wp-content/uploads/2024/10/imperial-citadel-of-Thang-Long.jpg') {
-        activity.imageUrl =
-            'https://hanoi-vietnam.com/wp-content/uploads/2024/02/thang-long-imperial-citadel-1.jpg';
-      } else if (activity.imageUrl ==
+        activities[i] = activities[i].copyWith(
+            imageUrl:
+                'https://hanoi-vietnam.com/wp-content/uploads/2024/02/thang-long-imperial-citadel-1.jpg');
+      } else if (activities[i].imageUrl ==
           'http://www.vietnamairlines.com/~/media/SEO-images/2025%20SEO/Traffic%20TA/MB/Ngoc%20Son%20Temple/ngoc-son-temple-thumb.jpg') {
-        activity.imageUrl =
-            'https://media.istockphoto.com/id/1155301593/photo/ngoc-son-temple-at-hoan-kiem-lake-in-hanoi-vietnam.jpg?s=612x612&w=0&k=20&c=2-v2UFV_39o-Rk5q4sL2s2_9tD1s7_f33i7N4v5ze54=';
+        activities[i] = activities[i].copyWith(
+            imageUrl:
+                'https://media.istockphoto.com/id/1155301593/photo/ngoc-son-temple-at-hoan-kiem-lake-in-hanoi-vietnam.jpg?s=612x612&w=0&k=20&c=2-v2UFV_39o-Rk5q4sL2s2_9tD1s7_f33i7N4v5ze54=');
       }
     }
 
