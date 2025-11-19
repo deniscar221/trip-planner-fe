@@ -42,7 +42,11 @@ class ProfileScreen extends HookConsumerWidget {
           children: [
             Row(
               children: [
-                const CircleAvatar(radius: 30),
+                const CircleAvatar(
+                  radius: 30,
+                  backgroundImage:
+                      NetworkImage('https://i.pravatar.cc/150?u=a042581f4e29026704d'),
+                ),
                 const SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
