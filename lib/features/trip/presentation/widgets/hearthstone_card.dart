@@ -7,8 +7,9 @@ class HearthstoneCard extends StatefulWidget {
   final String title;
   final String description;
   final VoidCallback? onTap;
-  final double? price; // New field for price
-  final double? duration; // New field for duration
+  final VoidCallback? onShareTap;
+  final double? price;
+  final double? duration;
 
   const HearthstoneCard({
     super.key,
@@ -16,6 +17,7 @@ class HearthstoneCard extends StatefulWidget {
     required this.title,
     required this.description,
     this.onTap,
+    this.onShareTap,
     this.price,
     this.duration,
   });
@@ -80,10 +82,12 @@ class _HearthstoneCardState extends State<HearthstoneCard>
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        _confettiController.play();
-        await Future.delayed(const Duration(milliseconds: 500));
-        if (mounted && widget.onTap != null) {
-          widget.onTap!();
+        if (widget.onTap != null) {
+          _confettiController.play();
+          await Future.delayed(const Duration(milliseconds: 500));
+          if (mounted) {
+            widget.onTap!();
+          }
         }
       },
       onPanUpdate: _onPanUpdate,
@@ -149,34 +153,46 @@ class _HearthstoneCardState extends State<HearthstoneCard>
                               bottomRight: Radius.circular(16),
                             ),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                widget.title,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.white,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.title,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      widget.description,
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: AppColors.white,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 8),
-                              Text(
-                                widget.description,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: AppColors.white,
+                              if (widget.onShareTap != null)
+                                IconButton(
+                                  icon: const Icon(Icons.share,
+                                      color: AppColors.white),
+                                  onPressed: widget.onShareTap,
                                 ),
-                              ),
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  // Price and Duration Pills
                   if (widget.price != null)
                     Positioned(
                       top: 12,
@@ -195,7 +211,6 @@ class _HearthstoneCardState extends State<HearthstoneCard>
                         text: '${widget.duration}h',
                       ),
                     ),
-                  // Shine Effect
                   AnimatedBuilder(
                     animation: _shineAnimation,
                     builder: (context, child) {
@@ -256,8 +271,8 @@ class _HearthstoneCardState extends State<HearthstoneCard>
           Icon(icon, color: AppColors.white, size: 16),
           const SizedBox(width: 4),
           Text(text,
-              style:
-                  const TextStyle(color: AppColors.white, fontWeight: FontWeight.bold)),
+              style: const TextStyle(
+                  color: AppColors.white, fontWeight: FontWeight.bold)),
         ],
       ),
     );
