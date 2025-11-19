@@ -1,4 +1,3 @@
-import 'package:ai_trip_planner/core/constants/app_constants.dart';
 import 'package:ai_trip_planner/features/trip/data/models/user_model.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
@@ -10,6 +9,7 @@ import 'package:ai_trip_planner/features/trip/presentation/widgets/hearthstone_c
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ai_trip_planner/core/constants/app_constants.dart';
 
 class ProfileScreen extends HookConsumerWidget {
   final User user;
@@ -45,7 +45,7 @@ class ProfileScreen extends HookConsumerWidget {
                 const CircleAvatar(
                   radius: 30,
                   backgroundImage:
-                      NetworkImage('https://i.pravatar.cc/150?u=a042581f4e29026704d'),
+                      NetworkImage('https://picsum.photos/seed/picsum/200/300'),
                 ),
                 const SizedBox(width: 16),
                 Column(
