@@ -8,6 +8,7 @@ import 'package:ai_trip_planner/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ai_trip_planner/core/theme/app_colors.dart';
+import 'package:country_state_city_picker/country_state_city_picker.dart';
 
 class PlanYourAdventureScreen extends StatelessWidget {
   const PlanYourAdventureScreen({super.key});
@@ -126,56 +127,14 @@ class PlanYourAdventureScreen extends StatelessWidget {
 
   Widget _buildDestinationSelection(
       BuildContext context, PlanYourAdventureState state) {
-    final cities = [
-      'Paris',
-      'Tokyo',
-      'Cape Town',
-      'Rio de Janeiro',
-      'Rome',
-      'Bali',
-      'New York City',
-      'London',
-      'Sydney',
-      'Dubai'
-    ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Autocomplete<String>(
-          initialValue: TextEditingValue(text: state.destination ?? ''),
-          optionsBuilder: (TextEditingValue textEditingValue) {
-            if (textEditingValue.text == '') {
-              return const Iterable<String>.empty();
-            }
-            return cities.where((String option) {
-              return option
-                  .toLowerCase()
-                  .contains(textEditingValue.text.toLowerCase());
-            });
-          },
-          onSelected: (String selection) {
-            context
-                .read<PlanYourAdventureBloc>()
-                .add(SelectDestination(selection));
-          },
-          fieldViewBuilder: (BuildContext context,
-              TextEditingController textEditingController,
-              FocusNode focusNode,
-              VoidCallback onFieldSubmitted) {
-            return TextFormField(
-              controller: textEditingController,
-              focusNode: focusNode,
-              enabled: !state.isAiChoice,
-              decoration: const InputDecoration(
-                labelText: 'Choose your destination',
-              ),
-              onChanged: (value) {
-                context
-                    .read<PlanYourAdventureBloc>()
-                    .add(SelectDestination(value.isEmpty ? null : value));
-              },
-            );
+        SelectState(
+          onCountryChanged: (value) {},
+          onStateChanged: (value) {},
+          onCityChanged: (value) {
+            context.read<PlanYourAdventureBloc>().add(SelectDestination(value));
           },
         ),
         const SizedBox(height: 16),
