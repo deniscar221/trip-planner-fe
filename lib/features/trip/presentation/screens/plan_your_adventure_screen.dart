@@ -175,11 +175,6 @@ class PlanYourAdventureScreen extends StatelessWidget {
                 context
                     .read<PlanYourAdventureBloc>()
                     .add(ToggleAiChoice(value));
-                if (value) {
-                  context
-                      .read<PlanYourAdventureBloc>()
-                      .add(SelectDestination(null));
-                }
               },
             ),
             const SizedBox(width: 8),

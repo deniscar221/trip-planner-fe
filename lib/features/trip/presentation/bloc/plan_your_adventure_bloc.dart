@@ -1,6 +1,6 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_event.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlanYourAdventureBloc
     extends Bloc<PlanYourAdventureEvent, PlanYourAdventureState> {
@@ -32,6 +32,10 @@ class PlanYourAdventureBloc
 
   void _onToggleAiChoice(
       ToggleAiChoice event, Emitter<PlanYourAdventureState> emit) {
-    emit(state.copyWith(isAiChoice: event.isAiChoice));
+    if (event.isAiChoice) {
+      emit(state.copyWith(isAiChoice: true, destination: null));
+    } else {
+      emit(state.copyWith(isAiChoice: false));
+    }
   }
 }
