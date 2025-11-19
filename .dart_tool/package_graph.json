@@ -9,7 +9,6 @@
       "dependencies": [
         "confetti",
         "copy_with_extension",
-        "csc_picker",
         "cupertino_icons",
         "dio",
         "dotted_border",
@@ -131,13 +130,6 @@
         "stream_channel",
         "test_api",
         "vector_math"
-      ]
-    },
-    {
-      "name": "csc_picker",
-      "version": "0.2.7",
-      "dependencies": [
-        "flutter"
       ]
     },
     {

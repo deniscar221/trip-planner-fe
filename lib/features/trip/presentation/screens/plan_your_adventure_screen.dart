@@ -1,3 +1,4 @@
+import 'package:ai_trip_planner/core/constants/cities.dart';
 import 'package:ai_trip_planner/core/widgets/custom_app_bar.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_bloc.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_event.dart';
@@ -8,7 +9,6 @@ import 'package:ai_trip_planner/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ai_trip_planner/core/theme/app_colors.dart';
-import 'package:csc_picker/csc_picker.dart';
 
 class PlanYourAdventureScreen extends StatelessWidget {
   const PlanYourAdventureScreen({super.key});
@@ -130,13 +130,40 @@ class PlanYourAdventureScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CSCPicker(
-          onCountryChanged: (value) {},
-          onStateChanged: (value) {},
-          onCityChanged: (value) {
+        Autocomplete<String>(
+          initialValue: TextEditingValue(text: state.destination ?? ''),
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            if (textEditingValue.text == '') {
+              return const Iterable<String>.empty();
+            }
+            return cities.where((String option) {
+              return option
+                  .toLowerCase()
+                  .contains(textEditingValue.text.toLowerCase());
+            });
+          },
+          onSelected: (String selection) {
             context
                 .read<PlanYourAdventureBloc>()
-                .add(SelectDestination(value));
+                .add(SelectDestination(selection));
+          },
+          fieldViewBuilder: (BuildContext context,
+              TextEditingController textEditingController,
+              FocusNode focusNode,
+              VoidCallback onFieldSubmitted) {
+            return TextFormField(
+              controller: textEditingController,
+              focusNode: focusNode,
+              enabled: !state.isAiChoice,
+              decoration: const InputDecoration(
+                labelText: 'Choose your destination',
+              ),
+              onChanged: (value) {
+                context
+                    .read<PlanYourAdventureBloc>()
+                    .add(SelectDestination(value.isEmpty ? null : value));
+              },
+            );
           },
         ),
         const SizedBox(height: 16),
@@ -144,13 +171,16 @@ class PlanYourAdventureScreen extends StatelessWidget {
           children: [
             Switch(
               value: state.isAiChoice,
-              onChanged: state.destination != null && state.destination!.isNotEmpty
-                  ? null
-                  : (value) {
-                      context
-                          .read<PlanYourAdventureBloc>()
-                          .add(ToggleAiChoice(value));
-                    },
+              onChanged: (value) {
+                context
+                    .read<PlanYourAdventureBloc>()
+                    .add(ToggleAiChoice(value));
+                if (value) {
+                  context
+                      .read<PlanYourAdventureBloc>()
+                      .add(SelectDestination(null));
+                }
+              },
             ),
             const SizedBox(width: 8),
             const Text('Let AI choose for me'),
