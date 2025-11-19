@@ -8,7 +8,7 @@ import 'package:ai_trip_planner/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ai_trip_planner/core/theme/app_colors.dart';
-import 'package:country_state_city_pro/country_state_city_pro.dart';
+import 'package:csc_picker/csc_picker.dart';
 
 class PlanYourAdventureScreen extends StatelessWidget {
   const PlanYourAdventureScreen({super.key});
@@ -130,12 +130,13 @@ class PlanYourAdventureScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CountryStateCityPicker(
-          country: TextEditingController(),
-          state: TextEditingController(),
-          city: TextEditingController(),
+        CSCPicker(
+          onCountryChanged: (value) {},
+          onStateChanged: (value) {},
           onCityChanged: (value) {
-            context.read<PlanYourAdventureBloc>().add(SelectDestination(value));
+            context
+                .read<PlanYourAdventureBloc>()
+                .add(SelectDestination(value));
           },
         ),
         const SizedBox(height: 16),

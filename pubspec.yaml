@@ -30,7 +30,7 @@ dependencies:
   logging: ^1.2.0
   jwt_decoder: ^2.0.1
   flutter_svg: ^2.0.10+1
-  country_state_city_pro: ^0.0.3
+  csc_picker: ^0.2.7
 
 dev_dependencies:
   flutter_test:

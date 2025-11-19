@@ -9,7 +9,7 @@
       "dependencies": [
         "confetti",
         "copy_with_extension",
-        "country_state_city_pro",
+        "csc_picker",
         "cupertino_icons",
         "dio",
         "dotted_border",
@@ -131,6 +131,13 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "csc_picker",
+      "version": "0.2.7",
+      "dependencies": [
+        "flutter"
       ]
     },
     {
@@ -1229,13 +1236,6 @@
       "dependencies": [
         "meta",
         "path"
-      ]
-    },
-    {
-      "name": "country_state_city_pro",
-      "version": "0.0.6",
-      "dependencies": [
-        "flutter"
       ]
     }
   ],

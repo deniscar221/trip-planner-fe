@@ -146,12 +146,6 @@
       "languageVersion": "3.0"
     },
     {
-      "name": "country_state_city_pro",
-      "rootUri": "file:///home/user/.pub-cache/hosted/pub.dev/country_state_city_pro-0.0.6",
-      "packageUri": "lib/",
-      "languageVersion": "2.19"
-    },
-    {
       "name": "cross_file",
       "rootUri": "file:///home/user/.pub-cache/hosted/pub.dev/cross_file-0.3.5+1",
       "packageUri": "lib/",
@@ -162,6 +156,12 @@
       "rootUri": "file:///home/user/.pub-cache/hosted/pub.dev/crypto-3.0.7",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "csc_picker",
+      "rootUri": "file:///home/user/.pub-cache/hosted/pub.dev/csc_picker-0.2.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "cupertino_icons",
