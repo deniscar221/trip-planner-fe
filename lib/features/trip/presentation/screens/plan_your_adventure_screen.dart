@@ -127,7 +127,6 @@ class PlanYourAdventureScreen extends StatelessWidget {
   Widget _buildDestinationSelection(
       BuildContext context, PlanYourAdventureState state) {
     final cities = [
-      '—', // Represents the default, unselected state
       'Paris',
       'Tokyo',
       'Cape Town',
@@ -143,32 +142,48 @@ class PlanYourAdventureScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DropdownButtonFormField<String>(
-          initialValue: state.destination ?? '—',
-          decoration: const InputDecoration(
-            labelText: 'Choose your destination',
-          ),
-          items: cities.map((city) {
-            return DropdownMenuItem(
-              value: city,
-              child: Text(city),
+        Autocomplete<String>(
+          initialValue: TextEditingValue(text: state.destination ?? ''),
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            if (textEditingValue.text == '') {
+              return const Iterable<String>.empty();
+            }
+            return cities.where((String option) {
+              return option
+                  .toLowerCase()
+                  .contains(textEditingValue.text.toLowerCase());
+            });
+          },
+          onSelected: (String selection) {
+            context
+                .read<PlanYourAdventureBloc>()
+                .add(SelectDestination(selection));
+          },
+          fieldViewBuilder: (BuildContext context,
+              TextEditingController textEditingController,
+              FocusNode focusNode,
+              VoidCallback onFieldSubmitted) {
+            return TextFormField(
+              controller: textEditingController,
+              focusNode: focusNode,
+              enabled: !state.isAiChoice,
+              decoration: const InputDecoration(
+                labelText: 'Choose your destination',
+              ),
+              onChanged: (value) {
+                context
+                    .read<PlanYourAdventureBloc>()
+                    .add(SelectDestination(value.isEmpty ? null : value));
+              },
             );
-          }).toList(),
-          onChanged: state.isAiChoice
-              ? null
-              : (value) {
-                  final destination = value == '—' ? null : value;
-                  context
-                      .read<PlanYourAdventureBloc>()
-                      .add(SelectDestination(destination));
-                },
+          },
         ),
         const SizedBox(height: 16),
         Row(
           children: [
             Switch(
               value: state.isAiChoice,
-              onChanged: state.destination != null
+              onChanged: state.destination != null && state.destination!.isNotEmpty
                   ? null
                   : (value) {
                       context
