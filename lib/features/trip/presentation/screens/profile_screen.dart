@@ -87,8 +87,10 @@ class ProfileScreen extends HookConsumerWidget {
                         );
                       },
                       onShareTap: () {
+                        final baseUrl = AppConstants.baseUrl
+                            .substring(0, AppConstants.baseUrl.length - 5);
                         final shareableLink =
-                            '${AppConstants.baseUrl}/shared/${trip.shareableLink}';
+                            '$baseUrl/shared/${trip.shareableLink}';
                         Clipboard.setData(ClipboardData(text: shareableLink));
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
