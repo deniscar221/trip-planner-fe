@@ -19,34 +19,7 @@ class ActivityPlanBloc extends Bloc<ActivityPlanEvent, ActivityPlanState> {
   }
 
   void _onViewTrip(ViewTrip event, Emitter<ActivityPlanState> emit) {
-    final Map<String, ActivityModel> knownActivityDetails = {};
-    for (var dayPlan in event.trip.dayPlans) {
-      for (var activity in dayPlan.activities) {
-        knownActivityDetails[activity.name] = activity;
-      }
-    }
-
-    final correctedDayPlans = event.trip.dayPlans.map((serverDayPlan) {
-      final correctedActivities = serverDayPlan.activities.map((serverActivity) {
-        final clientDetails = knownActivityDetails[serverActivity.name];
-        return ActivityModel(
-          id: serverActivity.id,
-          name: serverActivity.name,
-          city: serverActivity.city,
-          description: serverActivity.description,
-          expectedDurationHours: serverActivity.expectedDurationHours,
-          estimatedCostEUR: serverActivity.estimatedCostEUR,
-          imageUrl: clientDetails?.imageUrl,
-          address: clientDetails?.address,
-        );
-      }).toList();
-
-      return serverDayPlan.copyWith(activities: correctedActivities);
-    }).toList();
-
-    final finalItinerary = event.trip.copyWith(dayPlans: correctedDayPlans);
-
-    emit(ActivityPlanLoaded(itinerary: finalItinerary));
+    emit(ActivityPlanLoaded(itinerary: event.trip));
   }
 
   void _onGetInitialActivityPlan(

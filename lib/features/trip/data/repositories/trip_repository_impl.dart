@@ -50,19 +50,21 @@ class TripRepositoryImpl implements TripRepository {
   @override
   Future<ItineraryResponseModel> startTrip(
       String destination,
-      String startDate,
-      String endDate,
-      int numberOfAdults,
+      String? departureCity,
       int numberOfChildren,
+      int numberOfAdults,
+      String fromDate,
+      String toDate,
       List<String> interests) async {
     final response = await dio.post(
       'trip/start',
       data: {
         'destination': destination,
-        'startDate': startDate,
-        'endDate': endDate,
-        'numberOfAdults': numberOfAdults,
+        'departureCity': departureCity,
         'numberOfChildren': numberOfChildren,
+        'numberOfAdults': numberOfAdults,
+        'fromDate': fromDate,
+        'toDate': toDate,
         'interests': interests,
       },
     );
@@ -74,26 +76,9 @@ class TripRepositoryImpl implements TripRepository {
       int tripId, int dayNumber) async {
     final response =
         await dio.get('trip/$tripId/days/$dayNumber/suggestions/activities');
-
-    final activities = (response.data as List)
+    return (response.data as List)
         .map((activity) => ActivityModel.fromJson(activity))
         .toList();
-
-    for (var i = 0; i < activities.length; i++) {
-      if (activities[i].imageUrl ==
-          'https://asiapioneertravel.com/wp-content/uploads/2024/10/imperial-citadel-of-Thang-Long.jpg') {
-        activities[i] = activities[i].copyWith(
-            imageUrl:
-                'https://hanoi-vietnam.com/wp-content/uploads/2024/02/thang-long-imperial-citadel-1.jpg');
-      } else if (activities[i].imageUrl ==
-          'http://www.vietnamairlines.com/~/media/SEO-images/2025%20SEO/Traffic%20TA/MB/Ngoc%20Son%20Temple/ngoc-son-temple-thumb.jpg') {
-        activities[i] = activities[i].copyWith(
-            imageUrl:
-                'https://media.istockphoto.com/id/1155301593/photo/ngoc-son-temple-at-hoan-kiem-lake-in-hanoi-vietnam.jpg?s=612x612&w=0&k=20&c=2-v2UFV_39o-Rk5q4sL2s2_9tD1s7_f33i7N4v5ze54=');
-      }
-    }
-
-    return activities;
   }
 
   @override
