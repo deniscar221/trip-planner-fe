@@ -7,6 +7,7 @@ import 'package:ai_trip_planner/features/trip/presentation/screens/landing_scree
 import 'package:ai_trip_planner/features/trip/presentation/screens/plan_your_adventure_screen.dart';
 import 'package:ai_trip_planner/features/trip/presentation/widgets/hearthstone_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProfileScreen extends HookConsumerWidget {
@@ -81,6 +82,15 @@ class ProfileScreen extends HookConsumerWidget {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) => ActivityPlanScreen(trip: trip),
+                          ),
+                        );
+                      },
+                      onShareTap: () {
+                        Clipboard.setData(
+                            ClipboardData(text: trip.shareableLink ?? ''));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Trip link copied to clipboard!'),
                           ),
                         );
                       },
