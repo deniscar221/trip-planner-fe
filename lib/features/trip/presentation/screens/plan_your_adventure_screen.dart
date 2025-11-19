@@ -130,25 +130,36 @@ class PlanYourAdventureScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SelectState(
-          onCountryChanged: (value) {},
-          onStateChanged: (value) {},
-          onCityChanged: (value) {
-            context.read<PlanYourAdventureBloc>().add(SelectDestination(value));
-          },
+        IgnorePointer(
+          ignoring: state.isAiChoice,
+          child: Opacity(
+            opacity: state.isAiChoice ? 0.5 : 1.0,
+            child: SelectState(
+              onCountryChanged: (value) {},
+              onStateChanged: (value) {},
+              onCityChanged: (value) {
+                context
+                    .read<PlanYourAdventureBloc>()
+                    .add(SelectDestination(value));
+              },
+            ),
+          ),
         ),
         const SizedBox(height: 16),
         Row(
           children: [
             Switch(
               value: state.isAiChoice,
-              onChanged: state.destination != null && state.destination!.isNotEmpty
-                  ? null
-                  : (value) {
-                      context
-                          .read<PlanYourAdventureBloc>()
-                          .add(ToggleAiChoice(value));
-                    },
+              onChanged: (value) {
+                context
+                    .read<PlanYourAdventureBloc>()
+                    .add(ToggleAiChoice(value));
+                if (value) {
+                  context
+                      .read<PlanYourAdventureBloc>()
+                      .add(SelectDestination(null));
+                }
+              },
             ),
             const SizedBox(width: 8),
             const Text('Let AI choose for me'),
@@ -165,7 +176,8 @@ class PlanYourAdventureScreen extends StatelessWidget {
   Widget _buildNextButton(
       BuildContext context, PlanYourAdventureState state) {
     final isEnabled = state.selectedActivities.isNotEmpty &&
-        (state.destination != null || state.isAiChoice);
+        ((state.destination != null && state.destination!.isNotEmpty) ||
+            state.isAiChoice);
 
     return Center(
       child: ElevatedButton(
