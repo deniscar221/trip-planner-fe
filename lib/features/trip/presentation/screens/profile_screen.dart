@@ -1,3 +1,4 @@
+import 'package:ai_trip_planner/core/constants/app_constants.dart';
 import 'package:ai_trip_planner/features/trip/data/models/user_model.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_provider.dart';
 import 'package:ai_trip_planner/features/trip/presentation/provider/auth_state.dart';
@@ -86,8 +87,9 @@ class ProfileScreen extends HookConsumerWidget {
                         );
                       },
                       onShareTap: () {
-                        Clipboard.setData(
-                            ClipboardData(text: trip.shareableLink ?? ''));
+                        final shareableLink =
+                            '${AppConstants.baseUrl}/shared/${trip.shareableLink}';
+                        Clipboard.setData(ClipboardData(text: shareableLink));
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Trip link copied to clipboard!'),
