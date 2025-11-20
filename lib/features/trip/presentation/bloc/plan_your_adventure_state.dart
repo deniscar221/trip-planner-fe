@@ -1,5 +1,9 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 
+part 'plan_your_adventure_state.g.dart';
+
+@CopyWith(copyWithNull: true)
 class PlanYourAdventureState extends Equatable {
   final List<String> selectedActivities;
   final String? destination;
@@ -10,18 +14,6 @@ class PlanYourAdventureState extends Equatable {
     this.destination,
     this.isAiChoice = false,
   });
-
-  PlanYourAdventureState copyWith({
-    List<String>? selectedActivities,
-    String? destination,
-    bool? isAiChoice,
-  }) {
-    return PlanYourAdventureState(
-      selectedActivities: selectedActivities ?? this.selectedActivities,
-      destination: destination,
-      isAiChoice: isAiChoice ?? this.isAiChoice,
-    );
-  }
 
   @override
   List<Object?> get props => [selectedActivities, destination, isAiChoice];
