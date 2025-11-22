@@ -1,2 +1,3 @@
 # Flutter specific
 pubspec.lock
+.env

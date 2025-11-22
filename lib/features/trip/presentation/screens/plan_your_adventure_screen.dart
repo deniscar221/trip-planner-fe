@@ -1,5 +1,5 @@
-import 'package:ai_trip_planner/core/constants/cities.dart';
 import 'package:ai_trip_planner/core/widgets/custom_app_bar.dart';
+import 'package:ai_trip_planner/features/trip/domain/repositories/trip_repository.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_bloc.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_event.dart';
 import 'package:ai_trip_planner/features/trip/presentation/bloc/plan_your_adventure_state.dart';
@@ -132,15 +132,12 @@ class PlanYourAdventureScreen extends StatelessWidget {
       children: [
         Autocomplete<String>(
           initialValue: TextEditingValue(text: state.destination ?? ''),
-          optionsBuilder: (TextEditingValue textEditingValue) {
+          optionsBuilder: (TextEditingValue textEditingValue) async {
             if (textEditingValue.text == '') {
               return const Iterable<String>.empty();
             }
-            return cities.where((String option) {
-              return option
-                  .toLowerCase()
-                  .contains(textEditingValue.text.toLowerCase());
-            });
+            return await sl<TripRepository>()
+                .getCitySuggestions(textEditingValue.text);
           },
           onSelected: (String selection) {
             context
@@ -159,11 +156,9 @@ class PlanYourAdventureScreen extends StatelessWidget {
                 labelText: 'Choose your destination',
               ),
               onChanged: (value) {
-                // Clear the destination in state when user types manually.
-                // This ensures only options selected from the list are valid.
                 context
                     .read<PlanYourAdventureBloc>()
-                    .add(const SelectDestination(null));
+                    .add(SelectDestination(value.isEmpty ? null : value));
               },
             );
           },

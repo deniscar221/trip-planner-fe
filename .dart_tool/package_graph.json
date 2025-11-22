@@ -15,6 +15,7 @@
         "equatable",
         "flutter",
         "flutter_bloc",
+        "flutter_dotenv",
         "flutter_riverpod",
         "flutter_secure_storage",
         "flutter_svg",
@@ -130,6 +131,13 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "flutter_dotenv",
+      "version": "5.2.1",
+      "dependencies": [
+        "flutter"
       ]
     },
     {

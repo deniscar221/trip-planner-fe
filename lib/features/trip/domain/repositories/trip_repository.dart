@@ -26,4 +26,6 @@ abstract class TripRepository {
   Future<void> finalizeTrip(int tripId);
 
   Future<List<ItineraryResponseModel>> getUserTrips();
+
+  Future<List<String>> getCitySuggestions(String input);
 }

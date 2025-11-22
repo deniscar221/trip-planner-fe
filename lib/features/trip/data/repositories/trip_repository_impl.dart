@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ai_trip_planner/core/constants/app_constants.dart';
 import 'package:ai_trip_planner/core/network/error_interceptor.dart';
 import 'package:ai_trip_planner/core/network/logging_interceptor.dart';
@@ -8,6 +7,7 @@ import 'package:ai_trip_planner/features/trip/data/models/suggested_city_model.d
 import 'package:ai_trip_planner/features/trip/data/models/activity_model.dart';
 import 'package:ai_trip_planner/features/trip/domain/repositories/trip_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -121,6 +121,22 @@ class TripRepositoryImpl implements TripRepository {
     final response = await dio.get('trips');
     return (response.data as List)
         .map((trip) => ItineraryResponseModel.fromJson(trip))
+        .toList();
+  }
+
+  @override
+  Future<List<String>> getCitySuggestions(String input) async {
+    final apiKey = dotenv.env['GOOGLE_PLACES_API_KEY'];
+    final response = await dio.get(
+      'https://maps.googleapis.com/maps/api/place/autocomplete/json',
+      queryParameters: {
+        'input': input,
+        'types': '(cities)',
+        'key': apiKey,
+      },
+    );
+    return (response.data['predictions'] as List)
+        .map((prediction) => prediction['description'] as String)
         .toList();
   }
 }
