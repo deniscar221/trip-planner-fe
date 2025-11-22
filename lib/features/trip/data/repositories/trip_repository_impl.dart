@@ -124,20 +124,14 @@ class TripRepositoryImpl implements TripRepository {
         .toList();
   }
 
-  @override
-  Future<List<String>> getCitySuggestions(String input) async {
-    final apiKey = dotenv.env['GOOGLE_PLACES_API_KEY'];
-    final dio = Dio();
-    final response = await dio.get(
-      'https://maps.googleapis.com/maps/api/place/autocomplete/json',
-      queryParameters: {
-        'input': input,
-        'types': '(cities)',
-        'key': apiKey,
-      },
-    );
-    return (response.data['predictions'] as List)
-        .map((prediction) => prediction['description'] as String)
-        .toList();
-  }
-}
+@override
+      Future<List<String>> getCitySuggestions(String input) async {
+        final response = await dio.get(
+          'places/autocomplete',
+          queryParameters: {
+            'input': input,
+          },
+        );
+        return (response.data as List).cast<String>();
+      }
+    }
