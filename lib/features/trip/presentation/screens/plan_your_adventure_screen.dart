@@ -9,6 +9,7 @@ import 'package:ai_trip_planner/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ai_trip_planner/core/theme/app_colors.dart';
+import 'dart:developer' as developer;
 
 class PlanYourAdventureScreen extends StatelessWidget {
   const PlanYourAdventureScreen({super.key});
@@ -140,6 +141,7 @@ class PlanYourAdventureScreen extends StatelessWidget {
               return await sl<TripRepository>()
                   .getCitySuggestions(textEditingValue.text);
             } catch (e) {
+              developer.log('Failed to get city suggestions: $e');
               return const Iterable<String>.empty();
             }
           },
@@ -159,11 +161,6 @@ class PlanYourAdventureScreen extends StatelessWidget {
               decoration: const InputDecoration(
                 labelText: 'Choose your destination',
               ),
-              onChanged: (value) {
-                context
-                    .read<PlanYourAdventureBloc>()
-                    .add(SelectDestination(value.isEmpty ? null : value));
-              },
             );
           },
         ),
