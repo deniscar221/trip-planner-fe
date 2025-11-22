@@ -20,6 +20,7 @@ class ItineraryResponseModel {
   final String? imageUrl;
   final String? startDate;
   final String? endDate;
+  final double? totalEstimatedCost;
 
   ItineraryResponseModel({
     required this.id,
@@ -34,6 +35,7 @@ class ItineraryResponseModel {
     this.imageUrl,
     this.startDate,
     this.endDate,
+    this.totalEstimatedCost,
   });
 
   factory ItineraryResponseModel.fromJson(Map<String, dynamic> json) =>
