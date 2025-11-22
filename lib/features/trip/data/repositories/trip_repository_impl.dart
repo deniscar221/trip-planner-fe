@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'package:ai_trip_planner/core/constants/app_constants.dart';
 import 'package:ai_trip_planner/core/network/error_interceptor.dart';
 import 'package:ai_trip_planner/core/network/logging_interceptor.dart';
@@ -133,7 +134,9 @@ class TripRepositoryImpl implements TripRepository {
     );
     final data = response.data;
     if (data is List) {
-      return List<String>.from(data.map((item) => item.toString()));
+      final suggestions = List<String>.from(data.map((item) => item.toString()));
+      developer.log('Parsed city suggestions: $suggestions');
+      return suggestions;
     }
     return [];
   }
