@@ -136,8 +136,12 @@ class PlanYourAdventureScreen extends StatelessWidget {
             if (textEditingValue.text == '') {
               return const Iterable<String>.empty();
             }
-            return await sl<TripRepository>()
-                .getCitySuggestions(textEditingValue.text);
+            try {
+              return await sl<TripRepository>()
+                  .getCitySuggestions(textEditingValue.text);
+            } catch (e) {
+              return const Iterable<String>.empty();
+            }
           },
           onSelected: (String selection) {
             context

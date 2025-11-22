@@ -2,10 +2,14 @@ import 'package:ai_trip_planner/features/trip/presentation/screens/landing_scree
 import 'package:flutter/material.dart';
 import 'package:ai_trip_planner/core/theme/app_theme.dart';
 import 'package:ai_trip_planner/injection_container.dart' as di;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+
   // Initialize logging
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
