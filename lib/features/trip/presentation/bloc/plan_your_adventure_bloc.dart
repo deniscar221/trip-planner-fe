@@ -27,13 +27,13 @@ class PlanYourAdventureBloc
 
   void _onSelectDestination(
       SelectDestination event, Emitter<PlanYourAdventureState> emit) {
-    emit(state.copyWith(destination: event.destination));
+    emit(state.copyWith(destination: event.destination, isAiChoice: false));
   }
 
   void _onToggleAiChoice(
       ToggleAiChoice event, Emitter<PlanYourAdventureState> emit) {
     if (event.isAiChoice) {
-      emit(state.copyWith(isAiChoice: true, destination: null));
+      emit(state.copyWith(isAiChoice: true, forceNullDestination: true));
     } else {
       emit(state.copyWith(isAiChoice: false));
     }
