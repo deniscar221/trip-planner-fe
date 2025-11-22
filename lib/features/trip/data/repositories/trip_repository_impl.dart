@@ -127,6 +127,7 @@ class TripRepositoryImpl implements TripRepository {
   @override
   Future<List<String>> getCitySuggestions(String input) async {
     final apiKey = dotenv.env['GOOGLE_PLACES_API_KEY'];
+    final dio = Dio();
     final response = await dio.get(
       'https://maps.googleapis.com/maps/api/place/autocomplete/json',
       queryParameters: {
