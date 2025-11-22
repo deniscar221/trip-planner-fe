@@ -159,9 +159,11 @@ class PlanYourAdventureScreen extends StatelessWidget {
                 labelText: 'Choose your destination',
               ),
               onChanged: (value) {
+                // Clear the destination in state when user types manually.
+                // This ensures only options selected from the list are valid.
                 context
                     .read<PlanYourAdventureBloc>()
-                    .add(SelectDestination(value.isEmpty ? null : value));
+                    .add(const SelectDestination(null));
               },
             );
           },
@@ -191,9 +193,9 @@ class PlanYourAdventureScreen extends StatelessWidget {
 
   Widget _buildNextButton(
       BuildContext context, PlanYourAdventureState state) {
-    final isEnabled = state.selectedActivities.isNotEmpty &&
-        ((state.destination != null && state.destination!.isNotEmpty) ||
-            state.isAiChoice);
+    final isEnabled = (state.destination != null &&
+            state.destination!.isNotEmpty) ||
+        state.isAiChoice;
 
     return Center(
       child: ElevatedButton(
