@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ai_trip_planner/core/constants/app_constants.dart';
 import 'package:ai_trip_planner/core/network/error_interceptor.dart';
 import 'package:ai_trip_planner/core/network/logging_interceptor.dart';
@@ -50,21 +49,19 @@ class TripRepositoryImpl implements TripRepository {
   @override
   Future<ItineraryResponseModel> startTrip(
       String destination,
-      String? departureCity,
-      int numberOfChildren,
+      String startDate,
+      String endDate,
       int numberOfAdults,
-      String fromDate,
-      String toDate,
+      int numberOfChildren,
       List<String> interests) async {
     final response = await dio.post(
       'trip/start',
       data: {
         'destination': destination,
-        'departureCity': departureCity,
-        'numberOfChildren': numberOfChildren,
+        'startDate': startDate,
+        'endDate': endDate,
         'numberOfAdults': numberOfAdults,
-        'fromDate': fromDate,
-        'toDate': toDate,
+        'numberOfChildren': numberOfChildren,
         'interests': interests,
       },
     );
@@ -132,6 +129,10 @@ class TripRepositoryImpl implements TripRepository {
         'input': input,
       },
     );
-    return (response.data as List).cast<String>();
+    final data = response.data;
+    if (data is List) {
+      return List<String>.from(data.map((item) => item.toString()));
+    }
+    return [];
   }
 }
