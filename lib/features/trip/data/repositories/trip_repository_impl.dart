@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:ai_trip_planner/core/constants/app_constants.dart';
 import 'package:ai_trip_planner/core/network/error_interceptor.dart';
 import 'package:ai_trip_planner/core/network/logging_interceptor.dart';
@@ -7,7 +8,6 @@ import 'package:ai_trip_planner/features/trip/data/models/suggested_city_model.d
 import 'package:ai_trip_planner/features/trip/data/models/activity_model.dart';
 import 'package:ai_trip_planner/features/trip/domain/repositories/trip_repository.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -124,14 +124,14 @@ class TripRepositoryImpl implements TripRepository {
         .toList();
   }
 
-@override
-      Future<List<String>> getCitySuggestions(String input) async {
-        final response = await dio.get(
-          'places/autocomplete',
-          queryParameters: {
-            'input': input,
-          },
-        );
-        return (response.data as List).cast<String>();
-      }
-    }
+  @override
+  Future<List<String>> getCitySuggestions(String input) async {
+    final response = await dio.get(
+      'places/autocomplete',
+      queryParameters: {
+        'input': input,
+      },
+    );
+    return (response.data as List).cast<String>();
+  }
+}
