@@ -159,6 +159,11 @@ class PlanYourAdventureScreen extends StatelessWidget {
               decoration: const InputDecoration(
                 labelText: 'Choose your destination',
               ),
+              onChanged: (value) {
+                context
+                    .read<PlanYourAdventureBloc>()
+                    .add(SelectDestination(value.isEmpty ? null : value));
+              },
             );
           },
         ),
