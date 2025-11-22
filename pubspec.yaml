@@ -48,3 +48,4 @@ flutter:
     - assets/animations/
     - assets/images/background.svg
     - assets/images/background_white.svg
+    - .env
