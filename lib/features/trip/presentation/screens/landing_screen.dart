@@ -36,6 +36,12 @@ class LandingScreen extends ConsumerWidget {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                   ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Your smart companion for choosing the best tourist activities, conveniently.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                   const SizedBox(height: 64),
                   ElevatedButton(
                     onPressed: () {
