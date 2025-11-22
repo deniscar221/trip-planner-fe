@@ -1,0 +1,13 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+InterestModel _$InterestModelFromJson(Map<String, dynamic> json) =>
+    InterestModel(
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$InterestModelToJson(InterestModel instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+    };

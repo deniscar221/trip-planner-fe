@@ -1,0 +1,27 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
+    ActivityModel(
+      id: (json['id'] as num?)?.toInt(),
+      name: json['name'] as String,
+      city: json['city'] as String,
+      description: json['description'] as String,
+      expectedDurationHours: (json['expectedDurationHours'] as num).toDouble(),
+      estimatedCostEUR: (json['estimatedCostEUR'] as num).toDouble(),
+      imageUrl: json['imageUrl'] as String?,
+      address: json['address'] as String?,
+    );
+
+Map<String, dynamic> _$ActivityModelToJson(ActivityModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'city': instance.city,
+      'description': instance.description,
+      'expectedDurationHours': instance.expectedDurationHours,
+      'estimatedCostEUR': instance.estimatedCostEUR,
+      'imageUrl': instance.imageUrl,
+      'address': instance.address,
+    };
