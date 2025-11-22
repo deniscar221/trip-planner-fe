@@ -49,19 +49,21 @@ class TripRepositoryImpl implements TripRepository {
   @override
   Future<ItineraryResponseModel> startTrip(
       String destination,
-      String startDate,
-      String endDate,
-      int numberOfAdults,
+      String? departureCity,
       int numberOfChildren,
+      int numberOfAdults,
+      String fromDate,
+      String toDate,
       List<String> interests) async {
     final response = await dio.post(
       'trip/start',
       data: {
         'destination': destination,
-        'startDate': startDate,
-        'endDate': endDate,
-        'numberOfAdults': numberOfAdults,
+        'departureCity': departureCity,
         'numberOfChildren': numberOfChildren,
+        'numberOfAdults': numberOfAdults,
+        'fromDate': fromDate,
+        'toDate': toDate,
         'interests': interests,
       },
     );
